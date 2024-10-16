@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
-
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
