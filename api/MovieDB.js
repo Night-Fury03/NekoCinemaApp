@@ -3,16 +3,21 @@ import { apiKey, apiBaseUrl } from "../constants";
 
 export const movie_id = ""; //Mỗi lần cần sử dụng để lấy thông tin chi tiết phim cần import movie_id, gán giá trị id và gọi hàm fetchDetailsMovie
 export const person_id = "";
+export const account_id = "";
+
 //endpoints
 const trendingMovieListEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const nowPlayingsMovieEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
 const upcomingMovieEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const detailsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}?api_key=${apiKey}`;
-const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`;// Các đánh giá của bộ phim
-const creditsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/credits?api_key=${apiKey}`;// Các diễn viên đóng bộ phim
-const personEndpoint = `${apiBaseUrl}/person/${person_id}s?api_key=${apiKey}`;
+const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`; // Các đánh giá của bộ phim
+const creditsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/credits?api_key=${apiKey}`; // Các diễn viên đóng bộ phim
+const detailsPersonEndpoint = `${apiBaseUrl}/person/${person_id}?api_key=${apiKey}`;
+const detailsAccountEndpoint = `${apiBaseUrl}/account/${account_id}?api_key=${apiKey}`;
+const favoriteMoviesAccountEndpoint = `${apiBaseUrl}/account/${account_id}/favorite/movies?api_key=${apiKey}`;
 
-const apiCall = async (endpoint, params) => {
+// METHOD GET
+const apiCallGet = async (endpoint, params) => {
   const options = {
     method: "GET",
     url: endpoint,
@@ -28,23 +33,48 @@ const apiCall = async (endpoint, params) => {
 };
 
 export const fetchTrendingMovieList = () => {
-  return apiCall(trendingMovieListEndpoint);
+  return apiCallGet(trendingMovieListEndpoint);
 };
 export const fetchDetailsMovie = () => {
-  return apiCall(detailsMovieEndpoint);
+  return apiCallGet(detailsMovieEndpoint);
 };
 export const fetchNowPlayingsMovieEndpoint = () => {
-  return apiCall(nowPlayingsMovieEndpoint);
+  return apiCallGet(nowPlayingsMovieEndpoint);
 };
 export const fetchUpcomingMovieEndpoint = () => {
-  return apiCall(upcomingMovieEndpoint);
+  return apiCallGet(upcomingMovieEndpoint);
 };
 export const fetchCommentsMovieEndpoint = () => {
-  return apiCall(commentsMovieEndpoint);
+  return apiCallGet(commentsMovieEndpoint);
 };
 export const fetchCreditsMovieEndpoint = () => {
-  return apiCall(creditsMovieEndpoint);
+  return apiCallGet(creditsMovieEndpoint);
 };
-export const fetchPersonEndpoint = () => {
-  return apiCall(personEndpoint);
+export const fetchDetailsPersonEndpoint = () => {
+  return apiCallGet(detailsPersonEndpoint);
+};
+export const fetchDetailsAccountEndpoint = () => {
+  return apiCallGet(detailsAccountEndpoint);
+};
+export const fetchFavoriteMoviesAccountEndpoint = () => {
+  return apiCallGet(favoriteMoviesAccountEndpoint);
+};
+
+//METHOD POST
+const addToFavoriteMoviesAccountEndpoint = `${apiBaseUrl}/account/${account_id}/favorite?api_key=${apiKey}`;
+
+const apiCallPost = async (endpoint, data) => {
+  const options = {
+    method: "POST",
+    url: endpoint,
+    data: data ? data : {},
+  };
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    return {};
+  }
 };

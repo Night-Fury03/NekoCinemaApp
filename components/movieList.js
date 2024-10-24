@@ -10,11 +10,11 @@ import React from "react";
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
-import { fetchUpcomingMovieEndpoint } from "../api/MovieDB";
+import { fetchNowPlayingsMovieEndpoint } from "../api/MovieDB";
 var { width, height } = Dimensions.get("window");
 
 export default function MovieList({ title, data, hideSeeAll }) {
-  fetchUpcomingMovieEndpoint();
+  fetchNowPlayingsMovieEndpoint();
   let movieName = "SuperBatNman & sipderAquarium: infinity war";
   const navigation = useNavigation();
   return (
