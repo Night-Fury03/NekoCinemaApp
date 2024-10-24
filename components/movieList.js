@@ -3,11 +3,12 @@ import React from 'react'
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
-
+import { fetchTopRatedMovieList }from "../api/MovieDB";
 var { width, height } = Dimensions.get('window')
 
 
 export default function MovieList({ title, data, hideSeeAll }) {
+    fetchTopRatedMovieList();
     let movieName = 'SuperBatNman & sipderAquarium: infinity war'
     const navigation = useNavigation();
     return (

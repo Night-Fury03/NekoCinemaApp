@@ -1,10 +1,7 @@
 import axios from "axios";
 import { apiKey } from "../constants";
-
+import {apiBaseUrl} from "../constants/index";
 //endpoints
-const apiBaseUrl = "https://api.themoviedb.org/3";
-const topRatedMovieListEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
-const detailsTVSeriesEndpoint = `${apiBaseUrl}/tv/series_id?api_key=${apiKey}`;
 const detailsMovieEndpoint = `${apiBaseUrl}/movie/movie_id?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
@@ -24,9 +21,6 @@ const apiCall = async (endpoint, params) => {
 
 export const fetchTopRatedMovieList = () => {
   return apiCall(topRatedMovieListEndpoint);
-};
-export const fetchDetailsTVSeries = () => {
-  return apiCall(detailsTVSeriesEndpoint);
 };
 export const fetchDetailsMovie = () => {
   return apiCall(detailsMovieEndpoint);
