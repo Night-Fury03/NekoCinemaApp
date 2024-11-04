@@ -84,33 +84,6 @@ export default function HomeScreen() {
           <MovieList title="Coming Soon" data={coming} />
         </ScrollView>
       )}
-
-      {/* footer */}
-      {loading ? null : (
-        <View className="py-2">
-          <View className="flex-row justify-between items-center mx-4">
-            <TouchableOpacity className="items-center">
-              <HomeIcon size={28} strokeWidth={2} color="white" />
-              <Text className="text-white">Home</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="items-center">
-              <FilmIcon size={28} strokeWidth={2} color="white" />
-              <Text className="text-white">Theater</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="items-center">
-              <TicketIcon size={28} strokeWidth={2} color="white" />
-              <Text className="text-white">Bookings</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="items-center"
-              onPress={() => navigation.navigate("Login")}
-            >
-              <UserIcon size={28} strokeWidth={2} color="white" />
-              <Text className="text-white">Profile</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
     </StyledLinearGradient>
   );
 }

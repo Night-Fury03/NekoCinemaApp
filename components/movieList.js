@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { fetchNowPlayingsMovieEndpoint } from "../api/MovieDB";
