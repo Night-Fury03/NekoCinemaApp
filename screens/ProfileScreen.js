@@ -12,7 +12,7 @@ export default function PersonScreen() {
     const navigation = useNavigation();
     let userName = 'Trinh Kien Tuong'
     return (
-        <LinearGradient className="flex-1" colors={['#1d1d1d', '#1C2743']} locations={[0.2, 1]}>
+        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             <View className="w-full mt-8">
                 <View className="flex-row items-center">
                     <TouchableOpacity className="px-4" onPress={() => navigation.goBack()}>
@@ -21,7 +21,7 @@ export default function PersonScreen() {
                     <Text className="text-lg text-neutral-300">Profile</Text>
                 </View>
 
-                <View className="bg-customRed h-28 mx-6 rounded-xl justify-center items-center mt-12">
+                <View className="bg-customGrayDark h-28 mx-6 rounded-xl justify-center items-center mt-12">
                     {/* avatar */}
                     <View className="absolute bottom-20 rounded-full overflow-hidden h-16 w-16"
                         style={{
@@ -40,7 +40,7 @@ export default function PersonScreen() {
                         />
                     </View>
 
-                    <Text className="text-neutral-300 text-lg">
+                    <Text className="text-lg">
                         {userName}
                     </Text>
                 </View>

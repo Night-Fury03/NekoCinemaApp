@@ -26,14 +26,14 @@ export default function FavoriteScreen() {
     };
 
     return (
-        <LinearGradient className="flex-1" colors={['#1d1d1d', '#1C2743']} locations={[0.2, 1]}>
+        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             <View className="flex-1 mt-8">
                 <View className="flex-row justify-between w-full px-4">
                     <Text className="text-2xl text-neutral-300">My favorite</Text>
                     <Text className="text-base text-neutral-300">Count: {favoriteMovies.length}</Text>
                 </View>
 
-                <View className="flex-row w-full px-4 items-center">
+                <View className="flex-row w-full px-4 items-center py-4">
                     <Text className="text-xl text-neutral-500">Filter by: </Text>
 
                     {/* Filter */}

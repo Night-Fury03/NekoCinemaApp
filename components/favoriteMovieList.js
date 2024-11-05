@@ -25,7 +25,7 @@ export default function FavoriteMovieList({ data }) {
                 {
                     data.map((item, index) => {
                         return (
-                            <View className="mx-4 mt-4 rounded bg-white"
+                            <View className="mx-4 mt-4 rounded bg-customGray"
                                 style={{
                                     shadowColor: '#000',
                                     shadowOffset: { width: 2, height: 2 },
@@ -52,15 +52,15 @@ export default function FavoriteMovieList({ data }) {
                                 </View>
                                 <View className="flex-row justify-between items-center px-2 py-4">
                                     <View>
-                                        <Text className="font-semibold text-neutral-400">Time: {time}</Text>
-                                        <Text className="font-semibold text-neutral-400">Type: {type}</Text>
+                                        <Text className="font-semibold text-neutral-500">Time: {time}</Text>
+                                        <Text className="font-semibold text-neutral-500">Type: {type}</Text>
 
                                     </View>
                                     <TouchableOpacity className="flex-row items-center"
                                         onPress={() => setLiked(!liked)}
                                     >
                                         <HeartIcon size={24} strokeWidth={1} color="#E3463F" />
-                                        <Text className="ml-2 font-semibold text-neutral-400">Liked</Text>
+                                        <Text className="ml-2 font-semibold text-neutral-500">Liked</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

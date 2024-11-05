@@ -34,7 +34,7 @@ export default function TabNavigator() {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: '#1C2743',
+                backgroundColor: '#11212d',
             },
             headerShown: false
         })}
@@ -74,7 +74,8 @@ export default function TabNavigator() {
                             screen: 'ProfileScreen', // Điều hướng đến ProfileScreen hoặc một màn hình khác
                         });
                     },
-                })} />
+                })} 
+            />
         </Tab.Navigator>
     );
 }

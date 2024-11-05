@@ -16,7 +16,7 @@ export default function SearchScreen() {
     const [results, setResults] = useState([]);
     let movieName = "Black Clover"
     return (
-        <LinearGradient className="flex-1" colors={['#1d1d1d', '#1C2743']} locations={[0.2, 1]}>
+        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             <SafeAreaView className={ios ? "mb-2" : "mb-3"}>
                 <View className="flex-row justify-between items-center mx-4">
                     <Image source={require('../assets/img/Logo.png')}></Image>
