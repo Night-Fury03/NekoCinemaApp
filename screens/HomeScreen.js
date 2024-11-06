@@ -40,9 +40,7 @@ export default function HomeScreen() {
 
   const [login, setLogin] = useState(false);
   const [accountId, setAccountId] = useState(null);
-  const pressLogin = () => {
-    !login ? getAccountID(setAccountId, setLogin) : navigation.navigate("Search");
-  };
+  
   return (
     <StyledLinearGradient
       className="flex-1"
@@ -63,11 +61,10 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             {
-              !login ?
+              login ? null :
                 <TouchableOpacity onPress={() => getAccountID(setAccountId, setLogin)}>
                   <Text className="text-neutral-300 text-lg ml-5">Log In</Text>
                 </TouchableOpacity>
-                : null
             }
 
           </View>
