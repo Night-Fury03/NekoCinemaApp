@@ -22,7 +22,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
         <Text className="text-white text-xl">{title}</Text>
         {!hideSeeAll && (
           <TouchableOpacity>
-            <Text className="text-customOrange text-lg">See All</Text>
+            <Text className="text-customYellow text-lg">See All</Text>
           </TouchableOpacity>
         )}
       </View>

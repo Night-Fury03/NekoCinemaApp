@@ -40,13 +40,11 @@ export default function HomeScreen() {
 
   const [login, setLogin] = useState(false);
   const [accountId, setAccountId] = useState(null);
-  const pressLogin = () => {
-    !login ? getAccountID(setAccountId, setLogin) : navigation.navigate("Search"); 
-  };
+  
   return (
     <StyledLinearGradient
       className="flex-1"
-      colors={["#1d1d1d", "#1C2743"]}
+      colors={["#06141b", "#11212d"]}
       locations={[0.2, 1]}
     >
       {/*  */}
@@ -55,14 +53,23 @@ export default function HomeScreen() {
         <View className="flex-row justify-between items-center mx-4">
           <Image source={require("../assets/img/Logo.png")}></Image>
 
-          {/* Nút đăng nhập  */}
-          <TouchableOpacity onPress={pressLogin}> 
-            <MagnifyingGlassIcon size={30} strokeWidth={1} color="white" />
-          </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-            <MagnifyingGlassIcon size={30} strokeWidth={1} color="white" />
-          </TouchableOpacity>
+          <View className="flex-row items-center">
+            {/* Nút đăng nhập  */}
+            <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+              <MagnifyingGlassIcon size={30} strokeWidth={1} color="white" />
+            </TouchableOpacity>
+
+            {
+              login ? null :
+                <TouchableOpacity onPress={() => getAccountID(setAccountId, setLogin)}>
+                  <Text className="text-neutral-300 text-lg ml-5">Log In</Text>
+                </TouchableOpacity>
+            }
+
+          </View>
+
+
         </View>
       </StyledSafeAreaView>
 

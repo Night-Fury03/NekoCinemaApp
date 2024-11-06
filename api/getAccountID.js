@@ -39,6 +39,7 @@ const getAccountDetails = async (sessionId) => {
 };
 
 const verifyAccount = async (requestToken, setAccountID) => {
+const verifyAccount = async (requestToken, setAccountID) => {
   try {
     // Bước 4: Tạo session từ request token đã được xác thực
     const sessionId = await createSession(requestToken);
@@ -68,7 +69,8 @@ export const getAccountID = async (setAccountID, setLogin) => {
     const interval = setInterval(async () => {
       const isVerified = await verifyAccount(
         requestToken,
-        setAccountID
+        setAccountID,
+        setLogin
       );
       if (isVerified) {
         setLogin(true);

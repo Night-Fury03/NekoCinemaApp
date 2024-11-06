@@ -9,7 +9,7 @@ var { width, height } = Dimensions.get('window')
 
 export default function GiftScreen() {
     return (
-        <LinearGradient className="flex-1" colors={['#1d1d1d', '#1C2743']} locations={[0.2, 1]}>
+        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             <ScrollView className="flex-1" contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                 
             </ScrollView >

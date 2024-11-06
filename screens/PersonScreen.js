@@ -14,7 +14,7 @@ export default function PersonScreen() {
     const [loading, setLoading] = useState(false)
 
     return (
-        <LinearGradient className="flex-1" colors={['#1d1d1d', '#1C2743']} locations={[0.2, 1]}>
+        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             {
                 loading ? <Loading /> : (
                     <ScrollView >
