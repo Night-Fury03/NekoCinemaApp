@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import FavoriteStack from './FavoriteStack';
@@ -7,9 +6,38 @@ import GiftStack from './GiftStack';
 import ProfileStack from './ProfileStack';
 import { HeartIcon, HomeIcon, GiftIcon, UserIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 
 const Tab = createBottomTabNavigator();
+
+function TabBarIcon({ isFocused, IconComponent }) {
+    // Giá trị sharedValue để lưu trữ trạng thái phóng to
+    const scale = useSharedValue(1);
+
+    // Cập nhật giá trị sharedValue khi `focused` thay đổi
+    useFocusEffect(
+        React.useCallback(() => {
+            scale.value = withTiming(isFocused ? 1.2 : 1, { duration: 200 });
+        }, [isFocused])
+    );
+
+
+    // Tạo animated style để áp dụng hiệu ứng phóng to
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ scale: scale.value }],
+        };
+    });
+
+    return (
+        <Animated.View style={animatedStyle}>
+            <IconComponent size={isFocused ? 36 : 28} color={isFocused ? '#F5C51C' : '#9e9e9e'} />
+        </Animated.View>
+    );
+}
+
 
 export default function TabNavigator() {
     const navigation = useNavigation();
@@ -17,15 +45,14 @@ export default function TabNavigator() {
     return (
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({ focused }) => {
-                let iconColor = focused ? '#FD9564' : '#9e9e9e';
                 if (route.name === 'HomeTab') {
-                    return <HomeIcon size={focused ? 36 : 28} color={iconColor} />;
+                    return <TabBarIcon isFocused={focused} IconComponent={HomeIcon} />;
                 } else if (route.name === 'FavoriteTab') {
-                    return <HeartIcon size={focused ? 36 : 28} color={iconColor} />;
+                    return <TabBarIcon isFocused={focused} IconComponent={HeartIcon} />;
                 } else if (route.name === 'GiftTab') {
-                    return <GiftIcon size={focused ? 36 : 28} color={iconColor} />;
+                    return <TabBarIcon isFocused={focused} IconComponent={GiftIcon} />;
                 } else if (route.name === 'ProfileTab') {
-                    return <UserIcon size={focused ? 36 : 28} color={iconColor} />;
+                    return <TabBarIcon isFocused={focused} IconComponent={UserIcon} />;
                 }
             },
             tabBarShowLabel: false,
@@ -33,7 +60,6 @@ export default function TabNavigator() {
                 height: 60,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                alignItems: 'center',
                 backgroundColor: '#11212d',
             },
             headerShown: false
@@ -53,8 +79,8 @@ export default function TabNavigator() {
                             routes: [{ name: 'HomeTab' }],
                         });
                     },
-                })} 
-                />
+                })}
+            />
             <Tab.Screen
                 name="FavoriteTab"
                 component={FavoriteStack}
@@ -74,7 +100,7 @@ export default function TabNavigator() {
                             screen: 'ProfileScreen', // Điều hướng đến ProfileScreen hoặc một màn hình khác
                         });
                     },
-                })} 
+                })}
             />
         </Tab.Navigator>
     );
