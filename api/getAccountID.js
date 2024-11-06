@@ -38,7 +38,7 @@ const getAccountDetails = async (sessionId) => {
   }
 };
 
-const verifyAccount = async (requestToken, setAccountID, setLogin) => {
+const verifyAccount = async (requestToken, setAccountID) => {
   try {
     // Bước 4: Tạo session từ request token đã được xác thực
     const sessionId = await createSession(requestToken);
@@ -47,7 +47,6 @@ const verifyAccount = async (requestToken, setAccountID, setLogin) => {
     const accountId = await getAccountDetails(sessionId);
     console.log("Account ID:", accountId);
     setAccountID(accountId);
-    setLogin(true);
     // Kiểm tra account ID hoặc thông tin khác của người dùng (tùy thuộc yêu cầu xác minh của bạn)
     // Giả sử bạn xác minh thành công nếu có account ID
     return accountId ? true : false;
@@ -62,20 +61,18 @@ export const getAccountID = async (setAccountID, setLogin) => {
     const requestToken = await getRequestToken();
     console.log("Request Token:", requestToken);
 
-    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=NekoCinemaApp://Home`;
+    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=NekoCinemaApp://homeStack/home`;
     Linking.openURL(authUrl).catch((err) => {
       console.error("Error opening URL:", err);
     });
     const interval = setInterval(async () => {
       const isVerified = await verifyAccount(
         requestToken,
-        setAccountID,
-        setLogin
+        setAccountID
       );
       if (isVerified) {
+        setLogin(true);
         alert("Xác minh tài khoản thành công!");
-        // Điều hướng về ứng dụng
-        Linking.openURL("NekoCinemaApp://Home"); // Thay thế bằng route bạn muốn
       } else {
         alert("Xác minh tài khoản thất bại!");
       }
