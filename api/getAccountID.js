@@ -61,7 +61,7 @@ export const getAccountID = async (setAccountID, setLogin) => {
     const requestToken = await getRequestToken();
     console.log("Request Token:", requestToken);
 
-    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=NekoCinemaApp://Home`;
+    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=NekoCinemaApp://homeStack/home`;
     Linking.openURL(authUrl).catch((err) => {
       console.error("Error opening URL:", err);
     });
@@ -69,12 +69,11 @@ export const getAccountID = async (setAccountID, setLogin) => {
       const isVerified = await verifyAccount(
         requestToken,
         setAccountID,
+        setLogin
       );
       if (isVerified) {
-        setLogin(true)
+        setLogin(true);
         alert("Xác minh tài khoản thành công!");
-        // Điều hướng về ứng dụng
-        Linking.openURL("NekoCinemaApp://Home"); // Thay thế bằng route bạn muốn
       } else {
         alert("Xác minh tài khoản thất bại!");
       }
