@@ -7,17 +7,14 @@ import { useFocusEffect } from '@react-navigation/native';
 
 var { width, height } = Dimensions.get('window')
 
-export default function FavoriteMovieList({ data }) {
-    const [liked, setLiked] = useState(true)
+export default function GiftList({ data }) {
     const animatedValues = data.map(() => useSharedValue(-width));
 
     const ITEM_HEIGHT = height * 0.2;
 
-    let movieName = 'SuperBatNman & sipderAquarium: infinity war'
-    let summary = 'Sao anh ta có thể viết được mấy lời nhẹ nhàng như vậy ta, thật tò mò là anh ta đã trải qua điều j để có mấy lời nhẹ nhàng như này'
+    let giftName = 'Giam 15%'
+    let condition = 'Sao anh ta có thể viết được mấy lời nhẹ nhàng như vậy ta, thật tò mò là anh ta đã trải qua điều j để có mấy lời nhẹ nhàng như này'
     let time = '2hrs32min'
-    let day = '24-11-2024'
-    let type = 'Action • Adventure'
 
     useFocusEffect(
         React.useCallback(() => {
@@ -74,22 +71,18 @@ export default function FavoriteMovieList({ data }) {
                                     className="rounded-tl"
                                 />
                                 <View className="flex-1 mx-4">
-                                    <Text className="text-base font-bold">{movieName.length > 40 ? movieName.slice(0, 40) + '...' : movieName}</Text>
-                                    <Text className="text-sm font-semibold text-neutral-400">{day}</Text>
-                                    <Text className="text-xs font-light mt-3">{summary.length > 100 ? summary.slice(0, 100) + '...' : summary}</Text>
+                                    <Text className="text-3xl font-bold">{giftName}</Text>
+                                    <Text className="text-xs font-light mt-3">{condition.length > 100 ? condition.slice(0, 100) + '...' : condition}</Text>
                                 </View>
                             </View>
                             <View className="flex-row justify-between items-center px-2 py-4">
                                 <View>
-                                    <Text className="font-semibold text-neutral-500">Time: {time}</Text>
-                                    <Text className="font-semibold text-neutral-500">Type: {type}</Text>
-
+                                    <Text className="font-semibold text-neutral-500">HSD: {time}</Text>
                                 </View>
-                                <TouchableOpacity className="flex-row items-center"
-                                    onPress={() => setLiked(!liked)}
+                                <TouchableOpacity className="items-center bg-customRed p-3 rounded"
+
                                 >
-                                    <HeartIcon size={24} strokeWidth={1} color="#E3463F" />
-                                    <Text className="ml-2 font-semibold text-neutral-500">Liked</Text>
+                                    <Text className="font-semibold text-white">Collection</Text>
                                 </TouchableOpacity>
                             </View>
                         </Animated.View>

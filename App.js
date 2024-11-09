@@ -23,7 +23,6 @@ function App() {
   useEffect(() => {
     const handleDeepLink = async () => {
       const url = await Linking.getInitialURL(); // Lấy URL ban đầu
-      console.log(url)
       if (url) {
         const route = url.replace(/.*?:\/\//g, ""); // Lấy route từ URL
         if (route === "Home") {

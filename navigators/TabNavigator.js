@@ -84,10 +84,34 @@ export default function TabNavigator() {
             <Tab.Screen
                 name="FavoriteTab"
                 component={FavoriteStack}
+                listeners={({ navigation }) => ({
+                    tabPress: (e) => {
+                        // Ngăn chặn hành vi điều hướng mặc định
+                        e.preventDefault();
+
+                        // Reset ngăn xếp về HomeScreen
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'FavoriteTab' }],
+                        });
+                    },
+                })}
             />
             <Tab.Screen
                 name="GiftTab"
                 component={GiftStack}
+                listeners={({ navigation }) => ({
+                    tabPress: (e) => {
+                        // Ngăn chặn hành vi điều hướng mặc định
+                        e.preventDefault();
+
+                        // Reset ngăn xếp về HomeScreen
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'GiftTab' }],
+                        });
+                    },
+                })}
             />
             <Tab.Screen
                 name="ProfileTab"
