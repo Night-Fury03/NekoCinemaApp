@@ -1,7 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { Linking, SafeAreaView } from "react-native";
-import { useEffect } from "react";
+import { SafeAreaView } from "react-native";
 import RootStack from "./navigators/RootStack";
 
 const linkingConfig = {
@@ -10,40 +9,40 @@ const linkingConfig = {
     screens: {
       RootStack: {
         screens: {
-          TabNavigator: {
-            screens: {
-              HomeStack: "homeStack",
-              FavoriteStack: "favoriteStack",
-              GiftStack: "giftStack",
-              ProfileStack: "profileStack",
-            },
-          },
-          LoginScreen: "login",
-          ProfileScreen: "profile",
+          Main: "main", // Đường dẫn đến RootStack
+          Login: "login", // Đường dẫn đến màn hình Login
+          Profile: "profile", // Đường dẫn đến màn hình Profile
+        },
+      },
+      TabNavigator: {
+        screens: {
+          HomeTab: "home", // Đường dẫn đến HomeTab
+          FavoriteTab: "favorite", // Đường dẫn đến FavoriteTab
+          GiftTab: "gift", // Đường dẫn đến GiftTab
+          ProfileTab: "profile", // Đường dẫn đến ProfileTab
         },
       },
       HomeStack: {
         screens: {
-          HomeScreen: "home",
-          SearchScreen: "search",
-          MovieScreen: "movie",
-          PersonScreen: "person",
+          Home: "home", // Đường dẫn đến HomeScreen
+          Search: "search", // Đường dẫn đến SearchScreen
+          Movie: "movie", // Đường dẫn đến MovieScreen
+          Person: "person", // Đường dẫn đến PersonScreen
         },
       },
       FavoriteStack: {
         screens: {
-          FavoriteScreen: "favorite",
+          Favorite: "favorite", // Đường dẫn đến FavoriteScreen
         },
       },
       GiftStack: {
         screens: {
-          GiftScreen: "gift",
+          Gift: "gift", // Đường dẫn đến GiftScreen
         },
       },
-      SearchStack: {
+      ProfileStack: {
         screens: {
-          SearchScreen: "search",
-          MovieScreen: "movie",
+          Profile: "profile", // Đường dẫn đến ProfileScreen
         },
       },
     },
@@ -51,37 +50,6 @@ const linkingConfig = {
 };
 
 function App() {
-  useEffect(() => {
-    const handleDeepLink = async () => {
-      const url = await Linking.getInitialURL(); // Lấy URL ban đầu
-      if (url) {
-        const route = url.replace(/.*?:\/\//g, ""); // Lấy route từ URL
-        // Điều hướng tùy theo deep link nhận được
-        if (route === "home") {
-          // Điều hướng đến HomeScreen trong HomeStack
-          navigation.navigate("HomeStack", { screen: "HomeScreen" });
-        } else if (route === "favorite") {
-          // Điều hướng đến FavoriteScreen trong FavoriteStack
-          navigation.navigate("FavoriteStack", { screen: "FavoriteScreen" });
-        } else if (route === "gift") {
-          // Điều hướng đến GiftScreen trong GiftStack
-          navigation.navigate("GiftStack", { screen: "GiftScreen" });
-        } else if (route === "profile") {
-          // Điều hướng đến ProfileScreen
-          navigation.navigate("ProfileStack", { screen: "ProfileScreen" });
-        }
-      }
-    };
-
-    handleDeepLink(); // Gọi hàm xử lý
-
-    const linkingListener = Linking.addEventListener("url", handleDeepLink);
-
-    return () => {
-      linkingListener.remove();
-    };
-  }, []);
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer linking={linkingConfig}>

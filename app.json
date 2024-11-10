@@ -2,26 +2,64 @@
   "expo": {
     "scheme": "NekoCinemaApp",
     "name": "NekoCinemaApp",
-    "platforms": ["ios", "android"],
+    "slug": "NekoCinemaApp",
+    "prefixes": [
+      "NekoCinemaApp://"
+    ],
+    "config": {
+      "screens": {
+        "RootStack": {
+          "screens": {
+            "Main": "main",
+            "Login": "login",
+            "Profile": "profile"
+          }
+        },
+        "TabNavigator": {
+          "screens": {
+            "HomeTab": "home",
+            "FavoriteTab": "favorite",
+            "GiftTab": "gift",
+            "ProfileTab": "profile"
+          }
+        },
+        "HomeStack": {
+          "screens": {
+            "Home": "home",
+            "Search": "search",
+            "Movie": "movie",
+            "Person": "person"
+          }
+        },
+        "FavoriteStack": {
+          "screens": {
+            "Favorite": "favorite"
+          }
+        },
+        "GiftStack": {
+          "screens": {
+            "Gift": "gift"
+          }
+        },
+        "ProfileStack": {
+          "screens": {
+            "Profile": "profile"
+          }
+        }
+      }
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.yourname.nekoCinemaApp"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.tkt241103.NekoCinemaApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +69,28 @@
         "projectId": "2ad96d65-b172-4444-830c-93a583aa83c6"
       }
     },
-    "owner": "tkt241103"
+    "owner": "tkt241103",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourname.nekoCinemaApp"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.tkt241103.NekoCinemaApp",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "NekoCinemaApp",
+              "host": "home"
+            }
+          ]
+        }
+      ]
+    }
   }
 }

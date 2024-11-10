@@ -47,8 +47,6 @@ const verifyAccount = async (requestToken, setAccountID) => {
     const accountId = await getAccountDetails(sessionId);
     console.log("Account ID:", accountId);
     setAccountID(accountId);
-    // Kiểm tra account ID hoặc thông tin khác của người dùng (tùy thuộc yêu cầu xác minh của bạn)
-    // Giả sử bạn xác minh thành công nếu có account ID
     return accountId ? true : false;
   } catch (error) {
     console.error("Error verifying account:", error);
@@ -60,8 +58,9 @@ export const getAccountID = async (setAccountID, setLogin) => {
   try {
     const requestToken = await getRequestToken();
     console.log("Request Token:", requestToken);
-
-    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=NekoCinemaApp://homeStack/home`;
+    const redirectLink = "NekoCinemaApp://home";
+    Linking.openURL("NekoCinemaApp://home");
+    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${redirectLink}`;
     Linking.openURL(authUrl).catch((err) => {
       console.error("Error opening URL:", err);
     });
