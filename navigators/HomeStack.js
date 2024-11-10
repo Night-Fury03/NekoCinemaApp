@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import MovieScreen from '../screens/MovieScreen';
 import PersonScreen from '../screens/PersonScreen';
+import BookingScreen from '../screens/BookingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ export default function HomeStack() {
       <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Movie" component={MovieScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Person" component={PersonScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Booking" component={BookingScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

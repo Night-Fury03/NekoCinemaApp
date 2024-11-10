@@ -64,7 +64,7 @@ export default function FavoriteMovieList({ data }) {
                             ]}
                             className="rounded bg-customGray mb-8 mx-4"
                         >
-                            <View className="flex-row items-center border-b border-gray-300">
+                            <View className="flex-row items-center border-b border-gray-500">
                                 <Image
                                     source={require('../assets/img/blackClover.jpg')}
                                     style={{

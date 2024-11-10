@@ -10,7 +10,8 @@ module.exports = {
       colors: {
         customOrange: '#FD9564',
         customRed: '#E3463F',
-        customYellow: '#F5C51C'
+        customYellow: '#F5C51C',
+        customPink: '#F84464',
       },
       backgroundColor: {
         customBlue: '#1C2743',

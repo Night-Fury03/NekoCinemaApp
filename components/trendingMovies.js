@@ -37,9 +37,10 @@ const MovieCard = ({item, handleClick}) => {
             <Image
                 source={require('../assets/img/ava1.png')}
                 style={{
-                    width: width*0.6,
-                    height: height*0.2
+                    width: "100%",
+                    height: height*0.4
                 }}
+                resizeMode="contain"
                 className="rounded-3xl"
             />
         </TouchableWithoutFeedback>
