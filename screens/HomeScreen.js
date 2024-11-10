@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TouchableOpacity,
   View,
@@ -26,21 +26,45 @@ import MovieList from "../components/movieList";
 import Loading from "../components/loading";
 import { useNavigation } from "@react-navigation/native";
 import { getAccountID } from "../api/getAccountID";
+import { trendingMovieList } from "../api/getTrendingMovies";
+import { playingMovieList } from "../api/getNowShowingMovies";
+import { upcomingMovieList } from "../api/getComingSoonMovies";
 
 const ios = Platform.OS == "ios";
 const StyledLinearGradient = styled(LinearGradient);
 const StyledSafeAreaView = styled(SafeAreaView);
 
 export default function HomeScreen() {
-  const [trending, setTrending] = useState([1, 2, 3]);
-  const [showing, setShowing] = useState([1, 2, 3]);
-  const [coming, setComing] = useState([1, 2, 3]);
+  const [trendingMovie, setTrendingMovie] = useState([]);
+  const [nowShowingMovieData, setNowShowingMovieData] = useState([]);
+  const [upcomingMovieData, setUpcomingMovieData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const [login, setLogin] = useState(false);
   const [accountId, setAccountId] = useState(null);
   
+  useEffect(() => {
+    const fetchTrendingMovieList = async () => {
+      const trendingMovieData = await trendingMovieList();
+      setTrendingMovie(trendingMovieData["results"]);
+    };
+
+    const fetchPlayingMovieList = async () => {
+      const nowShowingMovieDataList = await playingMovieList();
+      setNowShowingMovieData(nowShowingMovieDataList["results"]);
+    };
+
+    const fetchUpcomingMovieList = async () => {
+      const upcomingMovieListDataList = await upcomingMovieList();
+      setUpcomingMovieData(upcomingMovieListDataList["results"]);
+    };
+
+    fetchUpcomingMovieList();
+    fetchTrendingMovieList();
+    fetchPlayingMovieList();
+  }, []);
+
   return (
     <StyledLinearGradient
       className="flex-1"
@@ -63,7 +87,7 @@ export default function HomeScreen() {
             {
               login ? null :
                 <TouchableOpacity onPress={() => getAccountID(setAccountId, setLogin)}>
-                  <Text className="text-neutral-300 text-lg ml-5">Log In</Text>
+                  <Text style={{color: 'white'}} className="text-neutral-300 text-lg ml-5">Log In</Text>
                 </TouchableOpacity>
             }
 
@@ -82,13 +106,13 @@ export default function HomeScreen() {
           contentContainerStyle={{ paddingBottom: 10 }}
         >
           {/* Trending movies carousel */}
-          <TrendingMovies data={trending} />
+          <TrendingMovies data={trendingMovie} />
 
           {/* Now Showing */}
-          <MovieList title="Now Showing" data={showing} />
+          <MovieList title="Now Showing" data={nowShowingMovieData} />
 
           {/* Coming Soon */}
-          <MovieList title="Coming Soon" data={coming} />
+          <MovieList title="Coming Soon" data={upcomingMovieData} />
         </ScrollView>
       )}
     </StyledLinearGradient>

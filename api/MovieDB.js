@@ -11,7 +11,6 @@ const nowPlayingsMovieEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiK
 const upcomingMovieEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const detailsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}?api_key=${apiKey}`;
 const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`; // Các đánh giá của bộ phim
-const creditsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/credits?api_key=${apiKey}`; // Các diễn viên đóng bộ phim
 const detailsPersonEndpoint = `${apiBaseUrl}/person/${person_id}?api_key=${apiKey}`;
 const detailsAccountEndpoint = `${apiBaseUrl}/account/${account_id}?api_key=${apiKey}`;
 const favoriteMoviesAccountEndpoint = `${apiBaseUrl}/account/${account_id}/favorite/movies?api_key=${apiKey}`;
@@ -47,9 +46,12 @@ export const fetchUpcomingMovieEndpoint = () => {
 export const fetchCommentsMovieEndpoint = () => {
   return apiCallGet(commentsMovieEndpoint);
 };
-export const fetchCreditsMovieEndpoint = () => {
-  return apiCallGet(creditsMovieEndpoint);
+export const fetchDetailsMovieEndpoint = (movieID) => {
+  return apiCallGet(`${apiBaseUrl}/movie/${movieID}?api_key=${apiKey}`);
 };
+// Credits - Lấy cast
+// Similar movies - Phim tương tự
+// Lấy trailer movies thông qua video movies
 export const fetchDetailsPersonEndpoint = () => {
   return apiCallGet(detailsPersonEndpoint);
 };

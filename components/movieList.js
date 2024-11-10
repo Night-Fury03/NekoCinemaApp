@@ -9,11 +9,10 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
-import { fetchNowPlayingsMovieEndpoint } from "../api/MovieDB";
+import { imgBaseUrl } from "../constants";
 var { width, height } = Dimensions.get("window");
 
 export default function MovieList({ title, data, hideSeeAll }) {
-  fetchNowPlayingsMovieEndpoint();
   let movieName = "SuperBatNman & sipderAquarium: infinity war";
   const navigation = useNavigation();
   return (
@@ -40,7 +39,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
             >
               <View className="space-y-1 mr-4">
                 <Image
-                  source={require("../assets/img/ava1.png")}
+                  source={{uri: `${imgBaseUrl}${item.poster_path}` }}
                   style={{
                     width: width * 0.5,
                     height: height * 0.32,
