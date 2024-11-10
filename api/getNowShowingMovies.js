@@ -5,6 +5,6 @@ export const playingMovieList = async () => {
     return await fetchNowPlayingsMovieEndpoint();
     
   } catch (error) {
-    console.error("Error fetching playing movie list:", error);
+    console.error("Error fetching now showing movies list:", error);
   }
 };

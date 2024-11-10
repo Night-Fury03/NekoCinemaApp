@@ -71,12 +71,13 @@
     },
     "owner": "tkt241103",
     "ios": {
+      "icon": "./assets/img/Logo.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.yourname.nekoCinemaApp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/img/Logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.tkt241103.NekoCinemaApp",

@@ -9,11 +9,9 @@ export const account_id = "";
 const trendingMovieListEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const nowPlayingsMovieEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
 const upcomingMovieEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
-const detailsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}?api_key=${apiKey}`;
+
+
 const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`; // Các đánh giá của bộ phim
-const detailsPersonEndpoint = `${apiBaseUrl}/person/${person_id}?api_key=${apiKey}`;
-const detailsAccountEndpoint = `${apiBaseUrl}/account/${account_id}?api_key=${apiKey}`;
-const favoriteMoviesAccountEndpoint = `${apiBaseUrl}/account/${account_id}/favorite/movies?api_key=${apiKey}`;
 
 // METHOD GET
 const apiCallGet = async (endpoint, params) => {
@@ -34,9 +32,6 @@ const apiCallGet = async (endpoint, params) => {
 export const fetchTrendingMovieList = () => {
   return apiCallGet(trendingMovieListEndpoint);
 };
-export const fetchDetailsMovie = () => {
-  return apiCallGet(detailsMovieEndpoint);
-};
 export const fetchNowPlayingsMovieEndpoint = () => {
   return apiCallGet(nowPlayingsMovieEndpoint);
 };
@@ -49,17 +44,31 @@ export const fetchCommentsMovieEndpoint = () => {
 export const fetchDetailsMovieEndpoint = (movieID) => {
   return apiCallGet(`${apiBaseUrl}/movie/${movieID}?api_key=${apiKey}`);
 };
-// Credits - Lấy cast
-// Similar movies - Phim tương tự
-// Lấy trailer movies thông qua video movies
-export const fetchDetailsPersonEndpoint = () => {
-  return apiCallGet(detailsPersonEndpoint);
+export const fetchCreditsMovieEndpoint = (movieID) => {
+  return apiCallGet(`${apiBaseUrl}/movie/${movieID}/credits?api_key=${apiKey}`);
 };
-export const fetchDetailsAccountEndpoint = () => {
-  return apiCallGet(detailsAccountEndpoint);
+export const fetchDetailsPeopleEndpoint = (personID) => {
+  return apiCallGet(`${apiBaseUrl}/person/${personID}?api_key=${apiKey}`);
 };
-export const fetchFavoriteMoviesAccountEndpoint = () => {
-  return apiCallGet(favoriteMoviesAccountEndpoint);
+export const fetchMoviesCreditsEndpoint = (personID) => {
+  return apiCallGet(
+    `${apiBaseUrl}/person/${personID}/movie_credits?api_key=${apiKey}`
+  );
+};
+export const fetchSimilarMovieEndpoint = (movieID) => {
+  return apiCallGet(`${apiBaseUrl}/movie/${movieID}/similar?api_key=${apiKey}`);
+};
+export const fetchTrailerMovieEndpoint = (movieID) => {
+  return apiCallGet(`${apiBaseUrl}/movie/${movieID}/videos?api_key=${apiKey}`);
+};
+export const fetchDetailsCreditsEndpoint = (creditID) => {
+  return apiCallGet(`${apiBaseUrl}/credit/${creditID}?api_key=${apiKey}`);
+};
+export const fetchDetailsAccountEndpoint = (accountID, sessionID) => {
+  return apiCallGet(`${apiBaseUrl}/account/${accountID}?api_key=${apiKey}&session_id=${sessionID}`);
+};
+export const fetchFavoriteMoviesAccountEndpoint = (accountID, sessionID) => {
+  return apiCallGet(`${apiBaseUrl}/account/${accountID}/favorite/movies?api_key=${apiKey}&session_id=${sessionID}`);
 };
 
 //METHOD POST

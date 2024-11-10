@@ -1,6 +1,7 @@
 import axios from "axios";
 import { apiKey, apiBaseUrl } from "../constants";
 import { Linking } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const getRequestToken = async () => {
   try {
@@ -42,9 +43,11 @@ const verifyAccount = async (requestToken, setAccountID) => {
   try {
     // Bước 4: Tạo session từ request token đã được xác thực
     const sessionId = await createSession(requestToken);
+    await AsyncStorage.setItem("sessionID", sessionId);
     console.log("Session ID:", sessionId);
 
     const accountId = await getAccountDetails(sessionId);
+    await AsyncStorage.setItem("accountID", JSON.stringify(accountId));
     console.log("Account ID:", accountId);
     setAccountID(accountId);
     return accountId ? true : false;

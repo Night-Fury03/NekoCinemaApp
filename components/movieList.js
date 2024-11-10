@@ -47,9 +47,9 @@ export default function MovieList({ title, data, hideSeeAll }) {
                   className="rounded-3xl"
                 />
                 <Text className="text-neutral-300 ml-1">
-                  {movieName.length > 14
-                    ? movieName.slice(0, 14) + "..."
-                    : movieName}
+                  {item.original_title.length > 14
+                    ? item.original_title.slice(0, 14) + "..."
+                    : item.original_title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
