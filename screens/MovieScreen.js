@@ -176,7 +176,9 @@ export default function MovieScreen() {
 
       {loading ? null : (
         <View className="absolute w-full bottom-4">
-          <TouchableOpacity className="bg-customRed py-1.5 mx-6 rounded-xl items-center">
+          <TouchableOpacity className="bg-customRed py-1.5 mx-6 rounded-xl items-center"
+            onPress={() => navigation.navigate('Booking')}
+          >
             <Text className="text-white text-base">Booking Ticket</Text>
           </TouchableOpacity>
         </View>
