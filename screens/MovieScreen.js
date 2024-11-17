@@ -23,25 +23,37 @@ import Cast from "../components/cast";
 import MovieList from "../components/movieList";
 import Loading from "../components/loading";
 import { detailedMovieList } from "../api/getDetailsMovies";
+import { imgBaseUrl } from "../constants";
+import { castMovieList } from "../api/getCastMovie";
+import { similarMovieList } from "../api/getSimilarMovie";
 
 var { width, height } = Dimensions.get("window");
 
 export default function MovieScreen() {
-  const {params: item} = useRoute();
+  const { params: item } = useRoute();
   const navigation = useNavigation();
-  const [creditsMovie, setCreditsMovie] = useState({});
+  const [detailsMovie, setDetailsMovie] = useState({});
   const [like, setLike] = useState(false);
-  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
-  const [similar, setSimilar] = useState([1, 2, 3, 4, 5]);
+  const [cast, setCast] = useState({});
+  const [similarMovie, setSimilarMovie] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchDetailsMovieList = async () => {
+      const detailsMovieData = await detailedMovieList(JSON.stringify(item.id));
+      setDetailsMovie(detailsMovieData);
+    };
     const fetchCreditsMovieList = async () => {
-      const creditsMovieData = await detailedMovieList(JSON.stringify(item.id));
-      console.log(creditsMovieData);
-      setCreditsMovie(creditsMovieData["results"]);
+      const creditsMovieData = await castMovieList(JSON.stringify(item.id));
+      setCast(creditsMovieData);
+    };
+    const fetchSimilarMovieList = async () => {
+      const similarMovie = await similarMovieList(JSON.stringify(item.id));
+      setSimilarMovie(similarMovie["results"]);
     };
 
+    fetchSimilarMovieList();
+    fetchDetailsMovieList();
     fetchCreditsMovieList();
   }, []);
 
@@ -58,7 +70,7 @@ export default function MovieScreen() {
           {/* video thumbnail */}
           <View className="w-full mt-8">
             <ImageBackground
-              source={require("../assets/img/blackClover.jpg")}
+              source={{ uri: `${imgBaseUrl}${item.backdrop_path}` }}
               style={{
                 width: width,
                 height: height * 0.3,
@@ -78,7 +90,7 @@ export default function MovieScreen() {
 
               <Image
                 className="absolute top-3/4 left-4 rounded-lg h-32 w-24"
-                source={require("../assets/img/blackClover.jpg")}
+                source={{ uri: `${imgBaseUrl}${item.backdrop_path}` }}
               />
             </ImageBackground>
           </View>
@@ -88,22 +100,32 @@ export default function MovieScreen() {
             {/* MovieName & Time */}
             <View className="my-4 right-6">
               <Text className="text-right text-white font-semibold text-3xl">
-                Black Clover
+                {detailsMovie.original_title}
               </Text>
               <Text className="text-right text-white font-light text-md">
-                JP • 2hrs32mins
+                {detailsMovie.origin_country} • {detailsMovie.runtime}mins
               </Text>
             </View>
-
             {/* Type */}
+
             <View className="mt-4 mx-4">
               <Text className="text-customOrange font-semibold text-lg">
                 Type
               </Text>
-              <View className="px-2 pt-3">
-                <Text className="text-white font-semibold">
-                  Action - Family
-                </Text>
+              <View
+                className="text-white font-semibold"
+                style={{ flexDirection: "row" }}
+              >
+                {detailsMovie.genres && detailsMovie.genres.length > 0
+                  ? detailsMovie.genres.map((genre) => (
+                      <Text
+                        key={genre.id}
+                        className="text-right text-white font-light text-md"
+                      >
+                        {genre.name}
+                      </Text>
+                    ))
+                  : null}
               </View>
             </View>
 
@@ -115,10 +137,14 @@ export default function MovieScreen() {
               <View className="flex-row justify-between px-2 ">
                 <View className="flex-row items-center">
                   <StarIcon size={20} strokeWidth={2} color="yellow" />
-                  <Text className="text-white">7.1</Text>
+                  <Text className="text-white">
+                    {detailsMovie.vote_average}
+                  </Text>
                 </View>
                 <View className="flex-row items-center">
-                  <Text className="text-white font-semibold mr-1">25.3k</Text>
+                  <Text className="text-white font-semibold mr-1">
+                    {detailsMovie.vote_count}
+                  </Text>
                   <Text className="text-white font-light mr-1">votes</Text>
                   <TouchableOpacity
                     className="p-3"
@@ -145,15 +171,10 @@ export default function MovieScreen() {
               </Text>
               <View className="px-2 pt-3">
                 <Text className="text-white font-semibold">
-                  Arthur Curry, the human-born heir to the underwater kingdom of
-                  Atlantis, goes on a quest to prevent a war between the worlds
-                  of ocean and land. Arthur Curry has always been different. His
-                  mother was an honorable Queen of Atlantean descent, while his
-                  father, a simple human lighthouse keeper.
+                  {detailsMovie.overview}
                 </Text>
               </View>
             </View>
-
             {/* Cast */}
             <View className="mt-4 ">
               <Text className="text-customOrange font-semibold text-lg mx-4">
@@ -167,7 +188,7 @@ export default function MovieScreen() {
               <MovieList
                 title="Similar movies"
                 hideSeeAll={true}
-                data={similar}
+                data={similarMovie}
               />
             </View>
           </View>

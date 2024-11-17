@@ -5,6 +5,6 @@ export const detailedMovieList = async (movieID) => {
     return await fetchDetailsMovieEndpoint(movieID);
     
   } catch (error) {
-    console.error("Error fetching playing movie list:", error);
+    console.error("Error fetching details movie list:", error);
   }
 };
