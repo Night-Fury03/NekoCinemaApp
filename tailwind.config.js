@@ -12,11 +12,14 @@ module.exports = {
         customRed: '#E3463F',
         customYellow: '#F5C51C',
         customPink: '#F84464',
+        customGray: '#CCD0CF',
+
       },
       backgroundColor: {
         customBlue: '#1C2743',
         customRed: '#E3463F',
         customPink: '#F84464',
+        customYellow: '#F5C51C',
         customGray: '#CCD0CF',
         customGrayDark: '#9BA8AB',
         customBlack: '#06141B',
