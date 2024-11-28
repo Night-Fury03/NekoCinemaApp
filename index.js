@@ -224,10 +224,10 @@ const chair = [
 ]
 
 const FoodDrink = [
-    { id: 1, name: "PopCorn" },
-    { id: 2, name: "Snack" },
-    { id: 3, name: "Coke" },
-    { id: 4, name: "Sprite" },
+    { id: 1, name: "PopCorn", cost: 2.5 },
+    { id: 2, name: "Snack", cost: 0.8 },
+    { id: 3, name: "Coke", cost: 1.2 },
+    { id: 4, name: "Sprite", cost: 1.2 },
 ]
 
 export {time, day, chair, FoodDrink} 

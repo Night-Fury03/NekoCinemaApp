@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, Platform } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +10,10 @@ const ios = Platform.OS == 'ios'
 export default function BookingScreen() {
     const navigation = useNavigation();
     const movieName = "Black Clover"
+
+    const scrollViewRef = useRef(null);
+    const ticketsRef = useRef(null);
+    const chairsRef = useRef(null);
 
     const [selectedDay, setSelectedDay] = useState(1);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -23,6 +27,16 @@ export default function BookingScreen() {
     const [foodAndDrinks, setFoodAndDrinks] = useState([]); // Food & drinks list
 
     const [tempSelection, setTempSelection] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const [canScrollBeyondChairs, setCanScrollBeyondChairs] = useState(false); // Kiểm soát vùng cuộn
+    const [isNextClicked, setIsNextClicked] = useState(false);
+    const [isAboveChairs, setIsAboveChairs] = useState(true); // Theo dõi vị trí cuộn
+
+
+
+    const isSelectionComplete = selectedDay !== null && selectedTime !== null && selectedChairs.length > 0;
+
 
     // Function to toggle modal visibility
     const toggleModal = () => {
@@ -32,6 +46,13 @@ export default function BookingScreen() {
     // Add or Edit selection
     const handleSave = () => {
         setFoodAndDrinks(tempSelection);
+        // Tính tổng giá của Food & Drinks
+        const foodTotal = tempSelection.reduce((sum, item) => sum + item.cost * item.quantity, 0);
+
+        // Cộng thêm giá ghế đã chọn
+        const chairTotal = selectedChairs.length * 2; // 2$ mỗi ghế
+
+        setTotalPrice(foodTotal + chairTotal);
         setModalVisible(false); // Close modal
     };
 
@@ -52,6 +73,46 @@ export default function BookingScreen() {
         rowArray(maxChairInRow)
     }, [])
 
+    const handleScroll = (event) => {
+        const yOffset = event.nativeEvent.contentOffset.y;
+
+        if (chairsRef.current) {
+            chairsRef.current.measureLayout(
+                scrollViewRef.current,
+                (x, y) => {
+                    // Kiểm tra nếu vị trí hiện tại nằm trên hoặc dưới phần ghế
+                    if (yOffset < y && !isAboveChairs) {
+                        setIsAboveChairs(true); // Hiển thị nút Next
+                    } else if (yOffset >= y && isAboveChairs) {
+                        setIsAboveChairs(false); // Ẩn nút Next
+                    }
+                    console.log("yOffset: " + yOffset)
+                    console.log("y: " + y)
+
+                },
+                () => {
+                    console.error("Failed to measure layout for chairsRef");
+                }
+            );
+        }
+    };
+
+
+    const scrollToTickets = () => {
+        if (ticketsRef.current) {
+            ticketsRef.current.measureLayout(
+                scrollViewRef.current,
+                (x, y) => {
+                    scrollViewRef.current.scrollTo({ x: 0, y, animated: true });
+                },
+                () => {
+                    console.error("Layout measurement failed");
+                }
+            );
+        }
+    };
+
+
     return (
         <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
             <View className="absolute z-10 my-8">
@@ -64,9 +125,12 @@ export default function BookingScreen() {
             </View>
 
             <ScrollView
+                ref={scrollViewRef}
                 vertical
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ justifyContent: 'center', alignItems: 'left', paddingBottom: 50 }}
+                onScroll={handleScroll} // Theo dõi cuộn
+                scrollEventThrottle={16} // Tăng độ nhạy của sự kiện cuộn
             >
 
 
@@ -112,7 +176,7 @@ export default function BookingScreen() {
                                     className={`w-20 mr-4 mb-4 p-3 rounded-lg justify-center items-center ${isSelected ? 'bg-customYellow' : 'border border-neutral-400'}`}
                                     onPress={() => setSelectedTime(index)}
                                 >
-                                    <Text className="text-white">{item.time}</Text>
+                                    <Text className={`${isSelected ? '' : 'text-white'}`}>{item.time}</Text>
                                 </TouchableOpacity>
                             );
                         }
@@ -125,7 +189,7 @@ export default function BookingScreen() {
                         height: 70,
                         transform: [{ perspective: 150 }, { rotateX: '-15deg' }],
                     }}
-                        className="w-10/12 bg-customRed border border-neutral-400"
+                        className="w-10/12 bg-customPink border border-neutral-400"
                     >
                     </View>
                     <Text className="absolute text-white text-lg">Screen</Text>
@@ -133,13 +197,13 @@ export default function BookingScreen() {
 
                 {/* lựa chọn ghế */}
 
-                <View className="mt-4 flex-row">
-                    <View className="justify-between">
+                <View className="w-full mt-4 flex-row">
+                    <View className="w-1/12 justify-between">
                         {
                             chair.map((item, index) => {
                                 return (
-                                    <View key={index} className="border border-transparent my-1 px-2">
-                                        <Text className="text-base text-white" key={index}>{item.name}</Text>
+                                    <View key={index} className="border border-transparent my-1 w-6 h-6">
+                                        <Text className="text-white text-center" key={index}>{item.name}</Text>
                                     </View>
                                 );
                             })
@@ -157,7 +221,7 @@ export default function BookingScreen() {
                                                 return (
                                                     <TouchableOpacity
                                                         key={index}
-                                                        className={`border my-1 mx-1 p-3 rounded-lg ${selectedChairs.includes(position) ? 'bg-customYellow' : 'border-neutral-400'
+                                                        className={`m-1 w-6 h-6 rounded-lg ${selectedChairs.includes(position) ? 'bg-customYellow' : 'border border-neutral-400'
                                                             }`}
                                                         onPress={() => {
                                                             setSelectedChairs((prev) =>
@@ -178,20 +242,22 @@ export default function BookingScreen() {
                     </View>
                 </View>
 
-                <View className="ml-7 mt-1 flex-row justify-between items-center">
-                    {
-                        chairInRow.map((item, index) => {
-                            return (
-                                <View key={index} className="border border-transparent px-2">
-                                    <Text className="text-base text-white" key={index}>{item}</Text>
-                                </View>
-                            );
-                        })
+                <View className="w-full flex-row justify-end mt-1">
+                    <View className="w-11/12 flex-row justify-center items-center ">
+                        {
+                            chairInRow.map((item, index) => {
+                                return (
+                                    <View key={index} className="border border-transparent mx-1 w-6 h-6">
+                                        <Text className="text-white text-center" key={index}>{item}</Text>
+                                    </View>
+                                );
+                            })
 
-                    }
+                        }
+                    </View>
                 </View>
 
-                <View className="mx-8 mt-8 flex-row justify-between items-center">
+                <View ref={chairsRef} className="mx-8 mt-8 flex-row justify-between items-center">
                     <View className="items-center">
                         <View className="border border-neutral-400 p-3 px-6 rounded-lg"></View>
                         <Text className="mt-1 text-white">Avaiable</Text>
@@ -292,55 +358,85 @@ export default function BookingScreen() {
                 </Modal>
 
                 {/* Thông tin vé */}
-                <View className="mt-8 items-center">
-                    <View className="w-full ml-8">
-                        <Text className="text-customOrange text-lg">Your tickets</Text>
-                    </View>               
+                {isSelectionComplete && isNextClicked && (
+                    <View className="mt-8 items-center">
+                        <View className="w-full ml-8">
+                            <Text className="text-customOrange text-lg">Your tickets</Text>
+                        </View>
 
-                    {/* Selected Seats */}
-                    {selectedChairs.length > 0 && (
-                        <View className="w-full px-8 mt-4">
-                            <Text className="text-white text-base mb-1 underline">Selected Seats</Text>
-                            <View className="ml-2 mb-2">
-                                {selectedChairs.map((chair, index) => (
-                                    <Text key={index} className="text-white">{chair}</Text>
+                        {/* Selected Seats */}
+                        {selectedChairs.length > 0 && (
+                            <View className="w-10/12 mt-4">
+                                <Text className="text-white text-base mb-1 underline">Selected Seats</Text>
+                                <View className="w-full flex-row justify-between">
+                                    <View className="w-8/12 ml-2 flex-row flex-wrap">
+                                        {selectedChairs.map((chair, index) => (
+                                            <Text key={index} className="text-white mr-2">{chair}</Text>
+                                        ))}
+                                    </View>
+                                    <Text className="text-white text-right flex-1">${(selectedChairs.length * 2).toFixed(2)}</Text>
+                                </View>
+                            </View>
+                        )}
+
+                        {foodAndDrinks.length > 0 && (
+                            <View className="w-10/12 mt-4">
+                                <Text className="text-white text-base mb-1 underline">Foods & Drinks</Text>
+                                {foodAndDrinks.map((item, index) => (
+                                    <View key={index} className="ml-2 mb-2 flex-row justify-between items-center">
+                                        <Text className="text-white">{item.name} x{item.quantity}</Text>
+                                        <Text className="text-white">${(item.cost * item.quantity).toFixed(2)}</Text>
+                                    </View>
                                 ))}
                             </View>
-                        </View>
-                    )}
+                        )}
 
-                    {foodAndDrinks.length > 0 && (
-                        <View className="w-full px-8 mt-4">
-                            <Text className="text-white text-base mb-1 underline">Foods & Drinks</Text>
-                            {foodAndDrinks.map((item, index) => (
-                                <View key={index} className="ml-2 mb-2 flex-row justify-between items-center">
-                                    <Text className="text-white">{item.name}</Text>
-                                    <Text className="text-white">x{item.quantity}</Text>
-                                </View>
-                            ))}
-                        </View>
-                    )}
+                        <View className="w-10/12 mt-4 border-t border-neutral-400"></View>
 
-                    
-                </View>
+                        {/* Total Price */}
+                        <View className="w-10/12 mt-4 flex-row justify-between items-center">
+                            <Text className="text-white text-base mb-1">Total :</Text>
+                            <Text className="text-white text-xl">${totalPrice.toFixed(2)}</Text>
+                        </View>
+                    </View>
+                )}
 
                 {/* nut them bap nc & thanh toan */}
-                <View className="mt-8 px-10 items-center space-y-4">
-                    <TouchableOpacity
-                        className="w-full rounded-lg py-3 items-center bg-customGray"
-                        onPress={toggleModal}
-                    >
-                        <Text>{foodAndDrinks.length > 0 ? "Edit food & drinks" : "Add food & drinks"}</Text>
-                    </TouchableOpacity>
+                {isSelectionComplete && isNextClicked && (
+                    <View ref={ticketsRef} className="mt-8 px-10 items-center space-y-4">
+                        <TouchableOpacity
+                            className="w-full rounded-lg py-3 items-center bg-customGray"
+                            onPress={toggleModal}
+                        >
+                            <Text>{foodAndDrinks.length > 0 ? "Edit food & drinks" : "Add food & drinks"}</Text>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity
+                            className="w-full rounded-lg py-3 items-center bg-customPink"
+                        >
+                            <Text className="text-white">Pay</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </ScrollView>
+
+            {isAboveChairs && isSelectionComplete && (
+                <View className="absolute w-full z-10 bottom-4 items-center">
                     <TouchableOpacity
-                        className="w-full rounded-lg py-3 items-center bg-customRed"
+                        className="w-10/12 rounded-lg py-3 items-center bg-customPink"
+                        onPress={() => {
+                            setIsNextClicked(true);
+                            setCanScrollBeyondChairs(true); // Cho phép cuộn vượt quá phần ghế
+                            setTimeout(() => {
+                                scrollToTickets(); // Cuộn xuống phần "Your Tickets"
+                            }, 200); // Thêm thời gian chờ nếu cần để ScrollView cập nhật
+                        }}
                     >
-                        <Text className="text-white">Pay</Text>
+                        <Text className="text-white">Next</Text>
                     </TouchableOpacity>
                 </View>
+            )}
 
-            </ScrollView>
         </LinearGradient >
     )
 }
