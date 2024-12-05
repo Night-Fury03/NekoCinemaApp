@@ -4,21 +4,13 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
   Image,
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import {
-  Bars3Icon,
-  FilmIcon,
-  HomeIcon,
-  MagnifyingGlassIcon,
-  TicketIcon,
-  UserIcon,
-} from "react-native-heroicons/outline";
+import {MagnifyingGlassIcon} from "react-native-heroicons/outline";
 import { styled } from "nativewind";
 import { useState } from "react";
 import TrendingMovies from "../components/trendingMovies";
@@ -66,11 +58,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <StyledLinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1">
       {/*  */}
       <StyledSafeAreaView className={ios ? "mb-2" : "mb-3"}>
         <StatusBar style="light" />
@@ -115,6 +103,6 @@ export default function HomeScreen() {
           <MovieList title="Coming Soon" data={upcomingMovieData} />
         </ScrollView>
       )}
-    </StyledLinearGradient>
+    </View>
   );
 }

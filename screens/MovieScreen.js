@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Video from "react-native-video";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +7,9 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  Button,
+  Modal
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import {
   ArrowLeftIcon,
   HeartIcon,
@@ -18,7 +18,6 @@ import {
 import { StarIcon } from "react-native-heroicons/solid";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
 import Cast from "../components/cast";
 import MovieList from "../components/movieList";
 import Loading from "../components/loading";
@@ -58,11 +57,7 @@ export default function MovieScreen() {
   }, []);
 
   return (
-    <LinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1">
       {loading ? (
         <Loading />
       ) : (
@@ -118,13 +113,13 @@ export default function MovieScreen() {
               >
                 {detailsMovie.genres && detailsMovie.genres.length > 0
                   ? detailsMovie.genres.map((genre) => (
-                      <Text
-                        key={genre.id}
-                        className="text-right text-white font-light text-md"
-                      >
-                        {genre.name}
-                      </Text>
-                    ))
+                    <Text
+                      key={genre.id}
+                      className="text-right text-white font-light text-md"
+                    >
+                      {genre.name}
+                    </Text>
+                  ))
                   : null}
               </View>
             </View>
@@ -195,15 +190,15 @@ export default function MovieScreen() {
         </ScrollView>
       )}
 
-      {loading ? null : (
-        <View className="absolute w-full bottom-4">
-          <TouchableOpacity className="bg-customPink py-1.5 mx-6 rounded-xl items-center"
-            onPress={() => navigation.navigate('Booking')}
-          >
-            <Text className="text-white text-base">Booking Ticket</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </LinearGradient>
+
+      <View className="absolute w-full bottom-4">
+        <TouchableOpacity className="bg-customPink py-1.5 mx-6 rounded-xl items-center"
+          onPress={() => navigation.navigate('Booking')}
+        >
+          <Text className="text-white text-base">Booking Ticket</Text>
+        </TouchableOpacity>
+      </View>
+
+    </View>
   );
 }

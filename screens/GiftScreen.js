@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import { TouchableOpacity, Dimensions, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import GiftList from '../components/giftList';
 
@@ -167,7 +167,7 @@ export default function GiftScreen() {
 
             </Animated.View>
 
-            <GiftList data={choose === 'Vouchers' ? vouchers : myVouchers } />
+            <GiftList data={choose === 'Vouchers' ? vouchers : myVouchers} />
         </LinearGradient>
     );
 }

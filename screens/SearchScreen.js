@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 import { XMarkIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 
@@ -25,11 +24,7 @@ export default function SearchScreen() {
   let movieName = "Black Clover";
 
   return (
-    <LinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1">
       <SafeAreaView className={ios ? "mb-2" : "mb-3"}>
         <View className="flex-row justify-between items-center mx-4">
           <Image source={require("../assets/img/Logo.png")}></Image>
@@ -98,6 +93,6 @@ export default function SearchScreen() {
           </Text>
         </View>
       )}
-    </LinearGradient>
+    </View>
   );
 }

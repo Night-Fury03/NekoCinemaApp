@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Modal, Platform } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal, Animated } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
 import { time, day, chair, FoodDrink } from '../index'
-
-const ios = Platform.OS == 'ios'
 
 export default function BookingScreen() {
     const navigation = useNavigation();
@@ -13,7 +10,13 @@ export default function BookingScreen() {
 
     const scrollViewRef = useRef(null);
     const ticketsRef = useRef(null);
-    const chairsRef = useRef(null);
+    const yourTicketsRef = useRef(null);
+    const nextRef = useRef(null);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const slideAnim = useRef(new Animated.Value(-50)).current;
+
+
+    const [nextOffset, setNextOffset] = useState(null)
 
     const [selectedDay, setSelectedDay] = useState(1);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -29,10 +32,8 @@ export default function BookingScreen() {
     const [tempSelection, setTempSelection] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const [canScrollBeyondChairs, setCanScrollBeyondChairs] = useState(false); // Kiểm soát vùng cuộn
     const [isNextClicked, setIsNextClicked] = useState(false);
     const [isAboveChairs, setIsAboveChairs] = useState(true); // Theo dõi vị trí cuộn
-
 
 
     const isSelectionComplete = selectedDay !== null && selectedTime !== null && selectedChairs.length > 0;
@@ -73,28 +74,48 @@ export default function BookingScreen() {
         rowArray(maxChairInRow)
     }, [])
 
+    useEffect(() => {
+        Animated.parallel([
+            Animated.timing(fadeAnim, {
+                toValue: isAboveChairs ? 1 : 0, // Hiện (1) hoặc Ẩn (0)
+                duration: 300,
+                useNativeDriver: true,
+            }),
+            Animated.timing(slideAnim, {
+                toValue: isAboveChairs ? 0 : -50, // Vị trí: Ban đầu (0) hoặc Đẩy xuống (50px)
+                duration: 300,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    }, [isAboveChairs]);
+
+
     const handleScroll = (event) => {
         const yOffset = event.nativeEvent.contentOffset.y;
 
-        if (chairsRef.current) {
-            chairsRef.current.measureLayout(
+        if (nextRef.current) {
+            nextRef.current.measureInWindow((xNext, yNext, width, height) => {
+                setNextOffset(yNext)
+            });
+        }
+
+        if (yourTicketsRef.current) {
+            yourTicketsRef.current.measureLayout(
                 scrollViewRef.current,
                 (x, y) => {
                     // Kiểm tra nếu vị trí hiện tại nằm trên hoặc dưới phần ghế
-                    if (yOffset < y && !isAboveChairs) {
+                    if (y - yOffset > nextOffset && nextOffset && !isAboveChairs) {
                         setIsAboveChairs(true); // Hiển thị nút Next
-                    } else if (yOffset >= y && isAboveChairs) {
+                    } else if (y - yOffset <= nextOffset && nextOffset && isAboveChairs) {
                         setIsAboveChairs(false); // Ẩn nút Next
                     }
-                    console.log("yOffset: " + yOffset)
-                    console.log("y: " + y)
-
                 },
                 () => {
-                    console.error("Failed to measure layout for chairsRef");
+                    console.error("Failed to measure layout for yourTicketsRef");
                 }
             );
         }
+
     };
 
 
@@ -114,7 +135,7 @@ export default function BookingScreen() {
 
 
     return (
-        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
+        <View className="flex-1 bg-customLinearGradient1">
             <View className="absolute z-10 my-8">
                 <TouchableOpacity className="px-4 top-1" onPress={() => navigation.goBack()}>
                     <ArrowLeftIcon size={30} strokeWidth={1} color="#e9e9e9" />
@@ -123,6 +144,27 @@ export default function BookingScreen() {
             <View className="w-full my-8 items-center justify-center">
                 <Text className="text-white text-3xl">{movieName}</Text>
             </View>
+
+            {isAboveChairs && isSelectionComplete && (
+                <Animated.View style={{
+                    transform: [{ translateY: slideAnim }],
+                    opacity: fadeAnim,
+                }}
+                    ref={nextRef}
+                    className="absolute w-full z-10 bottom-4 items-center">
+                    <TouchableOpacity
+                        className="w-10/12 rounded-lg py-3 items-center bg-customPink"
+                        onPress={() => {
+                            setIsNextClicked(true);
+                            setTimeout(() => {
+                                scrollToTickets(); // Cuộn xuống phần "Your Tickets"
+                            }, 200); // Thêm thời gian chờ nếu cần để ScrollView cập nhật
+                        }}
+                    >
+                        <Text className="text-white">Next</Text>
+                    </TouchableOpacity>
+                </Animated.View>
+            )}
 
             <ScrollView
                 ref={scrollViewRef}
@@ -257,7 +299,7 @@ export default function BookingScreen() {
                     </View>
                 </View>
 
-                <View ref={chairsRef} className="mx-8 mt-8 flex-row justify-between items-center">
+                <View className="mx-8 mt-8 flex-row justify-between items-center">
                     <View className="items-center">
                         <View className="border border-neutral-400 p-3 px-6 rounded-lg"></View>
                         <Text className="mt-1 text-white">Avaiable</Text>
@@ -359,15 +401,15 @@ export default function BookingScreen() {
 
                 {/* Thông tin vé */}
                 {isSelectionComplete && isNextClicked && (
-                    <View className="mt-8 items-center">
+                    <View ref={yourTicketsRef} className="mt-8 items-center">
                         <View className="w-full ml-8">
-                            <Text className="text-customOrange text-lg">Your tickets</Text>
+                            <Text className="text-customOrange text-xl">Your tickets</Text>
                         </View>
 
                         {/* Selected Seats */}
                         {selectedChairs.length > 0 && (
                             <View className="w-10/12 mt-4">
-                                <Text className="text-white text-base mb-1 underline">Selected Seats</Text>
+                                <Text className="text-white text-lg mb-1 font-bold">Selected Seats</Text>
                                 <View className="w-full flex-row justify-between">
                                     <View className="w-8/12 ml-2 flex-row flex-wrap">
                                         {selectedChairs.map((chair, index) => (
@@ -381,7 +423,7 @@ export default function BookingScreen() {
 
                         {foodAndDrinks.length > 0 && (
                             <View className="w-10/12 mt-4">
-                                <Text className="text-white text-base mb-1 underline">Foods & Drinks</Text>
+                                <Text className="text-white text-lg mb-1 font-bold">Foods & Drinks</Text>
                                 {foodAndDrinks.map((item, index) => (
                                     <View key={index} className="ml-2 mb-2 flex-row justify-between items-center">
                                         <Text className="text-white">{item.name} x{item.quantity}</Text>
@@ -395,8 +437,8 @@ export default function BookingScreen() {
 
                         {/* Total Price */}
                         <View className="w-10/12 mt-4 flex-row justify-between items-center">
-                            <Text className="text-white text-base mb-1">Total :</Text>
-                            <Text className="text-white text-xl">${totalPrice.toFixed(2)}</Text>
+                            <Text className="text-white text-lg font-bold mb-1">Total :</Text>
+                            <Text className="text-white text-lg font-bold">${totalPrice.toFixed(2)}</Text>
                         </View>
                     </View>
                 )}
@@ -413,6 +455,7 @@ export default function BookingScreen() {
 
                         <TouchableOpacity
                             className="w-full rounded-lg py-3 items-center bg-customPink"
+                            onPress={() => navigation.navigate('Pay')}
                         >
                             <Text className="text-white">Pay</Text>
                         </TouchableOpacity>
@@ -420,23 +463,7 @@ export default function BookingScreen() {
                 )}
             </ScrollView>
 
-            {isAboveChairs && isSelectionComplete && (
-                <View className="absolute w-full z-10 bottom-4 items-center">
-                    <TouchableOpacity
-                        className="w-10/12 rounded-lg py-3 items-center bg-customPink"
-                        onPress={() => {
-                            setIsNextClicked(true);
-                            setCanScrollBeyondChairs(true); // Cho phép cuộn vượt quá phần ghế
-                            setTimeout(() => {
-                                scrollToTickets(); // Cuộn xuống phần "Your Tickets"
-                            }, 200); // Thêm thời gian chờ nếu cần để ScrollView cập nhật
-                        }}
-                    >
-                        <Text className="text-white">Next</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
 
-        </LinearGradient >
+        </View >
     )
 }

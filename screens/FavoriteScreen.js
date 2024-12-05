@@ -11,7 +11,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
-  XMarkIcon,
 } from "react-native-heroicons/outline";
 import FavoriteMovieList from "../components/favoriteMovieList";
 import Animated, {
@@ -71,11 +70,7 @@ export default function FavoriteScreen() {
   };
 
   return favoriteMoviesAccountList.results ? null : (
-    <LinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1" >
       <View className="flex-1 mt-8">
         <View className="flex-row justify-between w-full px-4">
           <Text className="text-2xl text-neutral-300">My favorite</Text>
@@ -146,6 +141,6 @@ export default function FavoriteScreen() {
 
         <FavoriteMovieList data={favoriteMoviesAccountList["results"]} />
       </View>
-    </LinearGradient>
+    </View>
   );
 }

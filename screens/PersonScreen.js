@@ -5,12 +5,10 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions,
   Platform,
 } from "react-native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 import MovieList from "../components/movieList";
 import Loading from "../components/loading";
 import { detailsPeopleList } from "../api/getDetailsPeople";
@@ -18,7 +16,6 @@ import { imgBaseUrl } from "../constants";
 import { detailsCreditsList } from "../api/getDetailsCreditsMovie";
 import { moviesCreditsList } from "../api/getMoviesCredits";
 
-const ios = Platform.OS == "ios";
 
 export default function PersonScreen() {
   const { params: item } = useRoute();
@@ -52,11 +49,7 @@ export default function PersonScreen() {
   }, []);
 
   return (
-    <LinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1">
       {loading ? (
         <Loading />
       ) : (
@@ -147,6 +140,6 @@ export default function PersonScreen() {
           </View>
         </ScrollView>
       )}
-    </LinearGradient>
+    </View>
   );
 }

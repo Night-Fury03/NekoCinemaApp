@@ -24,6 +24,8 @@ module.exports = {
         customGrayDark: '#9BA8AB',
         customBlack: '#06141B',
         customBlackLight: '#11212D',
+        customLinearGradient1: '#06141b',
+        customLinearGradient2: '#11212d',
       }
     },
   },

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions,
   Platform,
 } from "react-native";
 import {
@@ -17,7 +15,6 @@ import {
   TicketIcon,
 } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -62,11 +59,7 @@ export default function PersonScreen() {
   }));
 
   return (
-    <LinearGradient
-      className="flex-1"
-      colors={["#06141b", "#11212d"]}
-      locations={[0.2, 1]}
-    >
+    <View className="flex-1 bg-customLinearGradient1">
       <View className="w-full mt-8">
         <View className="flex-row items-center">
           <TouchableOpacity
@@ -145,6 +138,6 @@ export default function PersonScreen() {
           </TouchableOpacity>
         </Animated.View>
       </View>
-    </LinearGradient>
+    </View>
   );
 }
