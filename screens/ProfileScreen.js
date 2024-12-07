@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
 import {
   ArrowLeftEndOnRectangleIcon,
   ArrowLeftIcon,
@@ -32,6 +26,7 @@ export default function PersonScreen() {
   const translateY = useSharedValue(-50);
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.5);
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     translateY.value = withTiming(0, { duration: 500 });
@@ -39,12 +34,15 @@ export default function PersonScreen() {
     scale.value = withTiming(1, { duration: 500 });
 
     const account = async () => {
-      const account_ID = await AsyncStorage.getItem("accountID");
-      const session_ID = await AsyncStorage.getItem("sessionID");
-      const responsesData = await detailsAccount(account_ID, session_ID);
-      console.log(account_ID)
-      console.log(session_ID)
-      setResponses(responsesData);
+      try {
+        const account_ID = await AsyncStorage.getItem("accountID");
+        const session_ID = await AsyncStorage.getItem("sessionID");
+        const responsesData = await detailsAccount(account_ID, session_ID);
+        setImageUrl(responsesData.avatar.tmdb.avatar_path);
+        setResponses(responsesData);
+      } catch (error) {
+        console.error("Error fetching account details:", error);
+      }
     };
 
     account();
@@ -90,10 +88,11 @@ export default function PersonScreen() {
               elevation: 20,
             }}
           >
-            {console.log(responses)}
-            {responses.avatar.tmdb === null ? (
+            {imageUrl ? (
               <Image
-                source={require("../assets/img/blackClover.jpg")}
+                source={{
+                  uri: `${imgBaseUrl}${imageUrl}`,
+                }}
                 className="h-full w-full"
               />
             ) : (

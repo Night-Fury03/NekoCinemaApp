@@ -31,15 +31,13 @@ export default function FavoriteMovieList({ data }) {
         paddingBottom: 50,
       }}
     >
-
       {data.map((item, index) => {
         return (
           <TouchableOpacity
             key={index}
             className="rounded bg-customGray mb-8 mx-4"
             onPress={() => {
-
-              navigation.navigate("Movie", item)
+              navigation.navigate("Movie", item);
             }}
           >
             <View className="flex-row items-center border-b border-gray-500">
@@ -74,7 +72,7 @@ export default function FavoriteMovieList({ data }) {
                 </Text>
                 <Text className="font-semibold text-neutral-500">Type:</Text>
                 {item.genre_ids.map((index) => (
-                  <Text>{index}</Text>
+                  <Text key={index}>{index}</Text>
                 ))}
               </View>
               <TouchableOpacity
