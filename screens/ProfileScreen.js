@@ -105,13 +105,18 @@ export default function PersonScreen() {
           <TouchableOpacity className="py-4 flex-row items-center"
             onPress={() => {
               navigation.navigate("FavoriteTab"); // Điều hướng đến tab Home
-            }}>
+            }}
+          >
             <HeartIcon size={30} strokeWidth={1} color="white" />
             <Text className="text-neutral-300 text-lg ml-2">
               Favorite Movies
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="py-4 flex-row items-center">
+          <TouchableOpacity className="py-4 flex-row items-center"
+            onPress={() => {
+              navigation.navigate("MyTickets");
+            }}
+          >
             <TicketIcon size={30} strokeWidth={1} color="white" />
             <Text className="text-neutral-300 text-lg ml-2">My Tickets</Text>
           </TouchableOpacity>
