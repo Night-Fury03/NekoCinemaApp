@@ -46,7 +46,7 @@ export default function GiftList({ data }) {
                                 <TouchableOpacity className="items-center bg-customRed p-3 rounded"
 
                                 >
-                                    <Text className="font-semibold text-white">Collection</Text>
+                                    <Text className="font-semibold text-white">Collect</Text>
                                 </TouchableOpacity>
                             </View>
 

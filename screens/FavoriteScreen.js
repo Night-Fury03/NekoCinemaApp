@@ -19,6 +19,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { favoriteMoviesAccount } from "../api/getFavoriteMoviesAccount";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../components/loading";
 var { width, height } = Dimensions.get("window");
 const TYPES = ["All", "Action", "Adventure", "Animation", "Comedy", "Crime"];
 
@@ -142,7 +143,7 @@ export default function FavoriteScreen() {
       </View>
     </View>
     ) : (
-      <Text className="text-neutral-300 text-lg">Loading or No Favorite Movies Found</Text>
+      <Loading />
     )
   );
 }

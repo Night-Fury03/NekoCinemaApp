@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
 import {
   ArrowLeftEndOnRectangleIcon,
-  ArrowLeftIcon,
   Cog6ToothIcon,
   HeartIcon,
   QuestionMarkCircleIcon,
@@ -17,8 +16,8 @@ import Animated, {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { detailsAccount } from "../api/getDetailsAccount";
 import { imgBaseUrl } from "../constants";
+import { AuthContext } from '../constants/AuthContext';
 
-const ios = Platform.OS == "ios";
 
 export default function PersonScreen() {
   const navigation = useNavigation();
@@ -27,6 +26,9 @@ export default function PersonScreen() {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.5);
   const [imageUrl, setImageUrl] = useState(null);
+
+  const { logout } = useContext(AuthContext); // Lấy trạng thái đăng nhập
+
 
   useEffect(() => {
     translateY.value = withTiming(0, { duration: 500 });
@@ -61,16 +63,6 @@ export default function PersonScreen() {
   return (
     <View className="flex-1 bg-customLinearGradient1">
       <View className="w-full mt-8">
-        <View className="flex-row items-center">
-          <TouchableOpacity
-            className="px-4"
-            onPress={() => navigation.goBack()}
-          >
-            <ArrowLeftIcon size={30} strokeWidth={1} color="#e9e9e9" />
-          </TouchableOpacity>
-          <Text className="text-lg text-neutral-300">Profile</Text>
-        </View>
-
         <Animated.View
           style={animatedStyle}
           className="bg-customGrayDark h-28 mx-6 rounded-xl justify-center items-center mt-12"
@@ -110,7 +102,10 @@ export default function PersonScreen() {
           style={animatedOpacity}
           className="rounded-xl border border-neutral-400 py-6 px-4 mx-6 mt-8"
         >
-          <TouchableOpacity className="py-4 flex-row items-center">
+          <TouchableOpacity className="py-4 flex-row items-center"
+            onPress={() => {
+              navigation.navigate("FavoriteTab"); // Điều hướng đến tab Home
+            }}>
             <HeartIcon size={30} strokeWidth={1} color="white" />
             <Text className="text-neutral-300 text-lg ml-2">
               Favorite Movies
@@ -130,12 +125,13 @@ export default function PersonScreen() {
               Help and Support
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="py-4 flex-row items-center">
-            <ArrowLeftEndOnRectangleIcon
-              size={30}
-              strokeWidth={1}
-              color="white"
-            />
+          <TouchableOpacity className="py-4 flex-row items-center"
+            onPress={() => {
+              logout()
+              navigation.navigate("HomeTab"); // Điều hướng đến tab Home
+            }}
+          >
+            <ArrowLeftEndOnRectangleIcon size={30} strokeWidth={1} color="white" />
             <Text className="text-neutral-300 text-lg ml-2">Log out</Text>
           </TouchableOpacity>
         </Animated.View>

@@ -170,7 +170,7 @@ export default function BookingScreen() {
                 ref={scrollViewRef}
                 vertical
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ justifyContent: 'center', alignItems: 'left', paddingBottom: 50 }}
+                contentContainerStyle={{ justifyContent: 'center', alignItems: 'left', paddingBottom: 90 }}
                 onScroll={handleScroll} // Theo dõi cuộn
                 scrollEventThrottle={16} // Tăng độ nhạy của sự kiện cuộn
             >
@@ -234,7 +234,7 @@ export default function BookingScreen() {
                         className="w-10/12 bg-customPink border border-neutral-400"
                     >
                     </View>
-                    <Text className="absolute text-white text-lg">Screen</Text>
+                    <Text className="absolute text-white text-lg font-extrabold">SCREEN</Text>
                 </View>
 
                 {/* lựa chọn ghế */}

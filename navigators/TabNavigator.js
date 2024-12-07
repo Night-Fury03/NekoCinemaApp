@@ -52,9 +52,15 @@ export default function TabNavigator() {
 
     useEffect(() => {
         if (accountId) {
-          login()
+            login()
         }
-      }, [accountId])
+    }, [accountId])
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setAccountId(null)
+        }
+    }, [isLoggedIn])
 
     const handleLoginRedirect = () => {
         setIsModalVisible(false); // Đóng modal
@@ -165,8 +171,10 @@ export default function TabNavigator() {
                                 e.preventDefault(); // Ngăn điều hướng nếu chưa đăng nhập
                                 setIsModalVisible(true); // Hiển thị thông báo
                             } else {
-                                navigation.navigate('Profile', {
-                                    screen: 'ProfileScreen', // Điều hướng đến ProfileScreen hoặc một màn hình khác
+                                // Reset ngăn xếp về HomeScreen
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'ProfileTab' }],
                                 });
                             }
                         },
@@ -219,7 +227,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
-        
+
     },
     buttonText: {
         color: '#000',
