@@ -3,6 +3,7 @@ import { apiKey, apiBaseUrl } from "../constants";
 import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const getRequestToken = async () => {
   try {
     const response = await axios.get(
@@ -57,13 +58,11 @@ const verifyAccount = async (requestToken, setAccountID) => {
   }
 };
 
-export const getAccountID = async (setAccountID, setLogin) => {
+export const getAccountID = async (setAccountID) => {
   try {
     const requestToken = await getRequestToken();
     console.log("Request Token:", requestToken);
-    const redirectLink = "NekoCinemaApp://home";
-    Linking.openURL("NekoCinemaApp://home");
-    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${redirectLink}`;
+    const authUrl = `https://www.themoviedb.org/authenticate/${requestToken}`;
     Linking.openURL(authUrl).catch((err) => {
       console.error("Error opening URL:", err);
     });
@@ -71,10 +70,8 @@ export const getAccountID = async (setAccountID, setLogin) => {
       const isVerified = await verifyAccount(
         requestToken,
         setAccountID,
-        setLogin
       );
       if (isVerified) {
-        setLogin(true);
         alert("Xác minh tài khoản thành công!");
       } else {
         alert("Xác minh tài khoản thất bại!");

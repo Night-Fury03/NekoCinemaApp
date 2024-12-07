@@ -42,6 +42,8 @@ export default function PersonScreen() {
       const account_ID = await AsyncStorage.getItem("accountID");
       const session_ID = await AsyncStorage.getItem("sessionID");
       const responsesData = await detailsAccount(account_ID, session_ID);
+      console.log(account_ID)
+      console.log(session_ID)
       setResponses(responsesData);
     };
 
@@ -88,6 +90,7 @@ export default function PersonScreen() {
               elevation: 20,
             }}
           >
+            {console.log(responses)}
             {responses.avatar.tmdb === null ? (
               <Image
                 source={require("../assets/img/blackClover.jpg")}

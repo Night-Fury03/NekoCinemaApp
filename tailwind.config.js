@@ -3,7 +3,8 @@ module.exports = {
   content: [
     "./App.{js,jsx,ts,tsx}",
     "./screens/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}"
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./navigators/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
     extend: {
@@ -26,6 +27,7 @@ module.exports = {
         customBlackLight: '#11212D',
         customLinearGradient1: '#06141b',
         customLinearGradient2: '#11212d',
+        customOverlay:  'rgba(0, 0, 0, 0.5)',
       }
     },
   },

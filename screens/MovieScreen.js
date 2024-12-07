@@ -63,7 +63,7 @@ export default function MovieScreen() {
       ) : (
         <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
           {/* video thumbnail */}
-          <View className="w-full mt-8">
+          <View className="w-full">
             <ImageBackground
               source={{ uri: `${imgBaseUrl}${item.backdrop_path}` }}
               style={{
@@ -73,7 +73,7 @@ export default function MovieScreen() {
               className="relative justify-center items-center"
             >
               <TouchableOpacity
-                className="absolute z-10 px-4 top-2 left-0"
+                className="absolute z-10 px-4 top-10 left-0"
                 onPress={() => navigation.goBack()}
               >
                 <ArrowLeftIcon size={30} strokeWidth={1} color="#e9e9e9" />

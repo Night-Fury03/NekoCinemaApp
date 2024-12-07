@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -69,7 +68,8 @@ export default function FavoriteScreen() {
     setDropdownOpen(false);
   };
 
-  return favoriteMoviesAccountList.results ? null : (
+  return (
+    favoriteMoviesAccountList["results"] && favoriteMoviesAccountList["results"].length > 0 ? (
     <View className="flex-1 bg-customLinearGradient1" >
       <View className="flex-1 mt-8">
         <View className="flex-row justify-between w-full px-4">
@@ -138,9 +138,11 @@ export default function FavoriteScreen() {
             </Animated.View>
           </View>
         </View>
-
-        <FavoriteMovieList data={favoriteMoviesAccountList["results"]} />
+        <FavoriteMovieList data={favoriteMoviesAccountList['results']} />
       </View>
     </View>
+    ) : (
+      <Text className="text-neutral-300 text-lg">Loading or No Favorite Movies Found</Text>
+    )
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   TouchableOpacity,
   View,
@@ -7,10 +7,9 @@ import {
   Image,
   Platform,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import {MagnifyingGlassIcon} from "react-native-heroicons/outline";
+import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { styled } from "nativewind";
 import { useState } from "react";
 import TrendingMovies from "../components/trendingMovies";
@@ -21,9 +20,10 @@ import { getAccountID } from "../api/getAccountID";
 import { trendingMovieList } from "../api/getTrendingMovies";
 import { playingMovieList } from "../api/getNowShowingMovies";
 import { upcomingMovieList } from "../api/getComingSoonMovies";
+import { AuthContext } from '../constants/AuthContext';
+
 
 const ios = Platform.OS == "ios";
-const StyledLinearGradient = styled(LinearGradient);
 const StyledSafeAreaView = styled(SafeAreaView);
 
 export default function HomeScreen() {
@@ -33,9 +33,11 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  const [login, setLogin] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext); // Lấy trạng thái đăng nhập
+  const { login } = useContext(AuthContext); // Lấy trạng thái đăng nhập
+  const { logout } = useContext(AuthContext); // Lấy trạng thái đăng nhập
   const [accountId, setAccountId] = useState(null);
-  
+
   useEffect(() => {
     const fetchTrendingMovieList = async () => {
       const trendingMovieData = await trendingMovieList();
@@ -57,6 +59,16 @@ export default function HomeScreen() {
     fetchPlayingMovieList();
   }, []);
 
+  useEffect(() => {
+    if (accountId) {
+      login()
+    }
+  }, [accountId])
+
+  const LOGIN = () => {
+    getAccountID(setAccountId)
+  }
+
   return (
     <View className="flex-1 bg-customLinearGradient1">
       {/*  */}
@@ -73,11 +85,14 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             {
-              login ? null :
-                <TouchableOpacity onPress={() => getAccountID(setAccountId, setLogin)}>
-                  <Text style={{color: 'white'}} className="text-neutral-300 text-lg ml-5">Log In</Text>
+              isLoggedIn ?
+                null
+                :
+                <TouchableOpacity onPress={() => LOGIN()}>
+                  <Text className="text-neutral-300 text-lg ml-5">Log In</Text>
                 </TouchableOpacity>
             }
+            {/* {console.log("isLoggedIn:  " + isLoggedIn)} */}
 
           </View>
 
@@ -86,23 +101,20 @@ export default function HomeScreen() {
       </StyledSafeAreaView>
 
       {/* body */}
-      {loading ? (
-        <Loading />
-      ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 10 }}
-        >
-          {/* Trending movies carousel */}
-          <TrendingMovies data={trendingMovie} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 10 }}
+      >
+        {/* Trending movies carousel */}
+        <TrendingMovies data={trendingMovie} />
 
-          {/* Now Showing */}
-          <MovieList title="Now Showing" data={nowShowingMovieData} />
+        {/* Now Showing */}
+        <MovieList title="Now Showing" data={nowShowingMovieData} />
 
-          {/* Coming Soon */}
-          <MovieList title="Coming Soon" data={upcomingMovieData} />
-        </ScrollView>
-      )}
+        {/* Coming Soon */}
+        <MovieList title="Coming Soon" data={upcomingMovieData} />
+      </ScrollView>
+
     </View>
   );
 }
