@@ -10,7 +10,6 @@ const trendingMovieListEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${ap
 const nowPlayingsMovieEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
 const upcomingMovieEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 
-
 const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`; // Các đánh giá của bộ phim
 
 // METHOD GET
@@ -65,19 +64,25 @@ export const fetchDetailsCreditsEndpoint = (creditID) => {
   return apiCallGet(`${apiBaseUrl}/credit/${creditID}?api_key=${apiKey}`);
 };
 export const fetchDetailsAccountEndpoint = (accountID, sessionID) => {
-  return apiCallGet(`${apiBaseUrl}/account/${accountID}?api_key=${apiKey}&session_id=${sessionID}`);
+  return apiCallGet(
+    `${apiBaseUrl}/account/${accountID}?api_key=${apiKey}&session_id=${sessionID}`
+  );
 };
 export const fetchFavoriteMoviesAccountEndpoint = (accountID, sessionID) => {
-  return apiCallGet(`${apiBaseUrl}/account/${accountID}/favorite/movies?api_key=${apiKey}&session_id=${sessionID}`);
+  return apiCallGet(
+    `${apiBaseUrl}/account/${accountID}/favorite/movies?api_key=${apiKey}&session_id=${sessionID}`
+  );
 };
 
 //METHOD POST
-const addToFavoriteMoviesAccountEndpoint = `${apiBaseUrl}/account/${account_id}/favorite?api_key=${apiKey}`;
 
 const apiCallPost = async (endpoint, data) => {
   const options = {
     method: "POST",
     url: endpoint,
+    headers: {
+      "Content-Type": "application/json",
+    },
     data: data ? data : {},
   };
   try {
@@ -88,4 +93,12 @@ const apiCallPost = async (endpoint, data) => {
     console.log("error", error);
     return {};
   }
+};
+
+export const postAddRemoveFavoriteMovies = (movieID, isAddFavorite, accountID, sessionID) => {
+  return apiCallPost(`${apiBaseUrl}/account/${accountID}/favorite?session_id=${sessionID}&api_key=${apiKey}`, {
+    media_type: "movie",
+    media_id: movieID,
+    favorite: isAddFavorite,
+  });
 };

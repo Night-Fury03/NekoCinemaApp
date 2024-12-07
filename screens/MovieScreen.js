@@ -8,7 +8,7 @@ import {
   Dimensions,
   ImageBackground,
   Button,
-  Modal
+  Modal,
 } from "react-native";
 import {
   ArrowLeftIcon,
@@ -25,6 +25,9 @@ import { detailedMovieList } from "../api/getDetailsMovies";
 import { imgBaseUrl } from "../constants";
 import { castMovieList } from "../api/getCastMovie";
 import { similarMovieList } from "../api/getSimilarMovie";
+import { postAddRemoveFavoriteMovies } from "../api/MovieDB";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { favoriteMoviesAccount } from "../api/getFavoriteMoviesAccount";
 
 var { width, height } = Dimensions.get("window");
 
@@ -51,10 +54,37 @@ export default function MovieScreen() {
       setSimilarMovie(similarMovie["results"]);
     };
 
+    const fetchFavoriteMoviesAccountList = async () => {
+      const account_ID = await AsyncStorage.getItem("accountID");
+      const session_ID = await AsyncStorage.getItem("sessionID");
+      const favoriteMoviesAccountData = await favoriteMoviesAccount(
+        JSON.stringify(account_ID),
+        session_ID
+      );
+      if (
+        favoriteMoviesAccountData["results"].some((movie) => movie.id === item.id)
+      ) {
+        setLike(true);
+      }
+    };
+
+    fetchFavoriteMoviesAccountList();
     fetchSimilarMovieList();
     fetchDetailsMovieList();
     fetchCreditsMovieList();
   }, []);
+
+  const AddToFavorite = async (id) => {
+    const account_ID = await AsyncStorage.getItem("accountID");
+    const session_ID = await AsyncStorage.getItem("sessionID");
+    if (like === true) {
+      setLike(!like);
+      await postAddRemoveFavoriteMovies(id, false, account_ID, session_ID);
+    } else {
+      setLike(!like);
+      await postAddRemoveFavoriteMovies(id, true, account_ID, session_ID);
+    }
+  };
 
   return (
     <View className="flex-1 bg-customLinearGradient1">
@@ -113,13 +143,13 @@ export default function MovieScreen() {
               >
                 {detailsMovie.genres && detailsMovie.genres.length > 0
                   ? detailsMovie.genres.map((genre) => (
-                    <Text
-                      key={genre.id}
-                      className="text-right text-white font-light text-md"
-                    >
-                      {genre.name}
-                    </Text>
-                  ))
+                      <Text
+                        key={genre.id}
+                        className="text-right text-white font-light text-md"
+                      >
+                        {genre.name}
+                      </Text>
+                    ))
                   : null}
               </View>
             </View>
@@ -143,7 +173,7 @@ export default function MovieScreen() {
                   <Text className="text-white font-light mr-1">votes</Text>
                   <TouchableOpacity
                     className="p-3"
-                    onPress={() => setLike(!like)}
+                    onPress={() => AddToFavorite(item.id)}
                   >
                     {!like ? (
                       <HeartIcon size={24} strokeWidth={2} color="#E3463F" />
@@ -190,15 +220,14 @@ export default function MovieScreen() {
         </ScrollView>
       )}
 
-
       <View className="absolute w-full bottom-4">
-        <TouchableOpacity className="bg-customPink py-1.5 mx-6 rounded-xl items-center"
-          onPress={() => navigation.navigate('Booking')}
+        <TouchableOpacity
+          className="bg-customPink py-1.5 mx-6 rounded-xl items-center"
+          onPress={() => navigation.navigate("Booking")}
         >
           <Text className="text-white text-base">Booking Ticket</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
