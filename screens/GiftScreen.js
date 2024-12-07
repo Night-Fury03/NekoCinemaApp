@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableOpacity, Dimensions, Animated } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { TouchableOpacity, Dimensions, Animated, View } from 'react-native';
 import GiftList from '../components/giftList';
 
 
@@ -112,7 +111,7 @@ export default function GiftScreen() {
     };
 
     return (
-        <LinearGradient className="flex-1" colors={["#06141b", "#11212d"]} locations={[0.2, 1]}>
+        <View className="flex-1 bg-customLinearGradient1">
             <Animated.View className="relative items-center bg-customGray rounded-b-3xl mb-8"
                 style={{
                     height: HEADER_HEIGHT,
@@ -168,6 +167,6 @@ export default function GiftScreen() {
             </Animated.View>
 
             <GiftList data={choose === 'Vouchers' ? vouchers : myVouchers} />
-        </LinearGradient>
+        </View>
     );
 }

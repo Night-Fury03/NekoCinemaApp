@@ -67,161 +67,131 @@ const time = [
         dayID: 1,
         time: '20:55'
     },
-    {
-        id: 7,
-        dayID: 2,
-        time: '8:40'
-    },
-    {
-        id: 8,
-        dayID: 2,
-        time: '9:30'
-    },
-    {
-        id: 9,
-        dayID: 2,
-        time: '15:20'
-    },
-    {
-        id: 10,
-        dayID: 2,
-        time: '17:15'
-    },
-    {
-        id: 11,
-        dayID: 2,
-        time: '19:40'
-    },
-    {
-        id: 12,
-        dayID: 2,
-        time: '22:50'
-    },
 ]
 
-const chair = [
+const chair = [ 
     {
         "chair": 1,
         "name": 'A',
         "position": [
-            'A1',
-            'A2',
-            'A3',
-            'A4',
-            'A5',
-            'A6',
-            'A7',
-            'A8',
+            { "name": 'A1', "ordered": false },
+            { "name": 'A2', "ordered": false },
+            { "name": 'A3', "ordered": false },
+            { "name": 'A4', "ordered": false },
+            { "name": 'A5', "ordered": false },
+            { "name": 'A6', "ordered": false },
+            { "name": 'A7', "ordered": false },
+            { "name": 'A8', "ordered": false }
         ]
     },
     {
         "chair": 2,
         "name": 'B',
         "position": [
-            'B1',
-            'B2',
-            'B3',
-            'B4',
-            'B5',
-            'B6',
-            'B7',
-            'B8',
-           
+            { "name": 'B1', "ordered": false },
+            { "name": 'B2', "ordered": false },
+            { "name": 'B3', "ordered": false },
+            { "name": 'B4', "ordered": true },
+            { "name": 'B5', "ordered": true },
+            { "name": 'B6', "ordered": false },
+            { "name": 'B7', "ordered": false },
+            { "name": 'B8', "ordered": false }
         ]
     },
     {
         "chair": 3,
         "name": 'C',
         "position": [
-            'C1',
-            'C2',
-            'C3',
-            'C4',
-            'C5',
-            'C6',
-            'C7',
-            'C8',
+            { "name": 'C1', "ordered": true },
+            { "name": 'C2', "ordered": true },
+            { "name": 'C3', "ordered": false },
+            { "name": 'C4', "ordered": false },
+            { "name": 'C5', "ordered": false },
+            { "name": 'C6', "ordered": false },
+            { "name": 'C7', "ordered": false },
+            { "name": 'C8', "ordered": false }
         ]
     },
     {
         "chair": 4,
         "name": 'D',
         "position": [
-            'D1',
-            'D2',
-            'D3',
-            'D4',
-            'D5',
-            'D6',
-            'D7',
-            'D8',
+            { "name": 'D1', "ordered": false },
+            { "name": 'D2', "ordered": false },
+            { "name": 'D3', "ordered": false },
+            { "name": 'D4', "ordered": false },
+            { "name": 'D5', "ordered": false },
+            { "name": 'D6', "ordered": false },
+            { "name": 'D7', "ordered": false },
+            { "name": 'D8', "ordered": false }
         ]
     },
     {
         "chair": 5,
         "name": 'E',
         "position": [
-            'E1',
-            'E2',
-            'E3',
-            'E4',
-            'E5',
-            'E6',
-            'E7',
-            'E8',
-            'E9',
-            'E10',
+            { "name": 'E1', "ordered": false },
+            { "name": 'E2', "ordered": true },
+            { "name": 'E3', "ordered": true },
+            { "name": 'E4', "ordered": true },
+            { "name": 'E5', "ordered": true },
+            { "name": 'E6', "ordered": false },
+            { "name": 'E7', "ordered": true },
+            { "name": 'E8', "ordered": true },
+            { "name": 'E9', "ordered": true },
+            { "name": 'E10', "ordered": false }
         ]
     },
     {
         "chair": 6,
         "name": 'F',
         "position": [
-            'F1',
-            'F2',
-            'F3',
-            'F4',
-            'F5',
-            'F6',
-            'F7',
-            'F8',
-            'F9',
-            'F10',
+            { "name": 'F1', "ordered": false },
+            { "name": 'F2', "ordered": false },
+            { "name": 'F3', "ordered": true },
+            { "name": 'F4', "ordered": true },
+            { "name": 'F5', "ordered": true },
+            { "name": 'F6', "ordered": true },
+            { "name": 'F7', "ordered": true },
+            { "name": 'F8', "ordered": true },
+            { "name": 'F9', "ordered": false },
+            { "name": 'F10', "ordered": false }
         ]
     },
     {
         "chair": 7,
         "name": 'G',
         "position": [
-            'G1',
-            'G2',
-            'G3',
-            'G4',
-            'G5',
-            'G6',
-            'G7',
-            'G8',
-            'G9',
-            'G10',
+            { "name": 'G1', "ordered": false },
+            { "name": 'G2', "ordered": false },
+            { "name": 'G3', "ordered": false },
+            { "name": 'G4', "ordered": false },
+            { "name": 'G5', "ordered": false },
+            { "name": 'G6', "ordered": false },
+            { "name": 'G7', "ordered": false },
+            { "name": 'G8', "ordered": false },
+            { "name": 'G9', "ordered": false },
+            { "name": 'G10', "ordered": false }
         ]
     },
     {
         "chair": 8,
         "name": 'H',
         "position": [
-            'H1',
-            'H2',
-            'H3',
-            'H4',
-            'H5',
-            'H6',
-            'H7',
-            'H8',
-            'H9',
-            'H10',
+            { "name": 'H1', "ordered": false },
+            { "name": 'H2', "ordered": true },
+            { "name": 'H3', "ordered": true },
+            { "name": 'H4', "ordered": true },
+            { "name": 'H5', "ordered": false },
+            { "name": 'H6', "ordered": false },
+            { "name": 'H7', "ordered": false },
+            { "name": 'H8', "ordered": false },
+            { "name": 'H9', "ordered": true },
+            { "name": 'H10', "ordered": true }
         ]
-    },
-]
+    }
+];
+
 
 const FoodDrink = [
     { id: 1, name: "PopCorn", cost: 2.5 },

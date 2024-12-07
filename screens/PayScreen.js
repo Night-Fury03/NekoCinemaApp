@@ -7,6 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 export default function PayScreen() {
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Credit Card');
+
+    const handlePaymentMethodChange = (method) => {
+        setSelectedPaymentMethod(method);
+    };
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -77,13 +82,23 @@ export default function PayScreen() {
                 </View>
 
                 {/* apply vouchers */}
-                <View className="mt-6 w-full items-center bg-customGray">
-                    <TouchableOpacity
-                        className="rounded-full p-3 items-center bg-gray-100 border border-customPink text-customPink"
-                        onPress={toggleModal}
-                    >
-                        <Text className="text-customPink">Apply vouchers</Text>
-                    </TouchableOpacity>
+                <View className="mt-6 w-full items-center">
+                    <View className="w-10/12 flex flex-row justify-between items-center">
+                        <Text className="text-white text-base font-semibold">Apply vouchers</Text>
+                        <TouchableOpacity
+                            className="p-3 items-center"
+                            onPress={toggleModal}
+                        >
+                            <Text className="text-white">{`see all >>`}</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="w-10/12">
+                        <View className="ml-2 mb-2 flex-row justify-between items-center">
+                            <Text className="text-white">Decrease 15%</Text>
+                            <Text className="text-white">-$2.5</Text>
+                        </View>
+                    </View>
                 </View>
 
                 {/* detail ticket */}
@@ -110,11 +125,25 @@ export default function PayScreen() {
                 </View>
 
                 {/* type payment */}
-                <View className="mt-6 w-full items-center bg-customGray">
+                <View className="mt-6 w-full items-center">
+                    <Text className="text-white text-lg font-bold mb-3 w-10/12">Payment method</Text>
                     <TouchableOpacity
-                        className="rounded-full p-3 items-center bg-gray-100 border border-customPink text-customPink"
+                        onPress={() => handlePaymentMethodChange('Credit Card')}
+                        className={`w-10/12 flex-row justify-between items-center rounded-lg py-3 px-5 border bg-transparent mb-3 ${selectedPaymentMethod === 'Credit Card' ? 'border-customYellow' : ' border-customGray'}`}
                     >
-                        <Text className="text-customPink">hinh thuc thanh toan</Text>
+                        <Text className={`${selectedPaymentMethod === 'Credit Card' ? 'text-customYellow' : 'text-white'}`}>Credit Card</Text>
+                        <View
+                            className={`w-5 h-5 rounded-full border ${selectedPaymentMethod === 'Credit Card' ? 'bg-customYellow' : 'border-gray-400'}`}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => handlePaymentMethodChange('Momo')}
+                        className={`w-10/12 flex-row justify-between items-center rounded-lg py-3 px-5 border bg-transparent ${selectedPaymentMethod === 'Momo' ? 'border-customYellow' : ' border-customGray'}`}
+                    >
+                        <Text className={`${selectedPaymentMethod === 'Momo' ? 'text-customYellow' : 'text-white'}`}>Momo</Text>
+                        <View
+                            className={`w-5 h-5 rounded-full border ${selectedPaymentMethod === 'Momo' ? 'bg-customYellow' : 'border-gray-400'}`}
+                        />
                     </TouchableOpacity>
                 </View>
             </ScrollView>

@@ -211,17 +211,15 @@ export default function BookingScreen() {
                 <View className="w-full flex-row flex-wrap mt-8 px-4 justify-center items-center">
                     {time.map((item, index) => {
                         const isSelected = selectedTime === index;
-                        if (item.dayID === selectedDay) {
-                            return (
-                                <TouchableOpacity
-                                    key={index}
-                                    className={`w-20 mr-4 mb-4 p-3 rounded-lg justify-center items-center ${isSelected ? 'bg-customYellow' : 'border border-neutral-400'}`}
-                                    onPress={() => setSelectedTime(index)}
-                                >
-                                    <Text className={`${isSelected ? '' : 'text-white'}`}>{item.time}</Text>
-                                </TouchableOpacity>
-                            );
-                        }
+                        return (
+                            <TouchableOpacity
+                                key={index}
+                                className={`w-20 mr-4 mb-4 p-3 rounded-lg justify-center items-center ${isSelected ? 'bg-customYellow' : 'border border-neutral-400'}`}
+                                onPress={() => setSelectedTime(index)}
+                            >
+                                <Text className={`${isSelected ? '' : 'text-white'}`}>{item.time}</Text>
+                            </TouchableOpacity>
+                        );
                     })}
                 </View>
 
@@ -260,16 +258,20 @@ export default function BookingScreen() {
                                     <View key={rowIndex} className="flex-row justify-center items-center">
                                         {
                                             row.position.map((position, index) => {
+                                                const isOrdered = position.ordered; // Kiểm tra nếu ghế đã được đặt
                                                 return (
                                                     <TouchableOpacity
                                                         key={index}
-                                                        className={`m-1 w-6 h-6 rounded-lg ${selectedChairs.includes(position) ? 'bg-customYellow' : 'border border-neutral-400'
-                                                            }`}
+                                                        className={`m-1 w-6 h-6 rounded-lg 
+                                                            ${selectedChairs.includes(position.name) ? 'bg-customYellow' : 'border border-neutral-400'}
+                                                            ${isOrdered ? 'bg-customGray' : ''}
+                                                        `}
+                                                        disabled={isOrdered} // Vô hiệu hóa nút nếu ghế đã được đặt
                                                         onPress={() => {
                                                             setSelectedChairs((prev) =>
-                                                                prev.includes(position)
-                                                                    ? prev.filter((chair) => chair !== position) // Bỏ ghế nếu đã chọn
-                                                                    : [...prev, position] // Thêm ghế nếu chưa chọn
+                                                                prev.includes(position.name)
+                                                                    ? prev.filter((chair) => chair !== position.name) // Bỏ ghế nếu đã chọn
+                                                                    : [...prev, position.name] // Thêm ghế nếu chưa chọn
                                                             );
                                                         }}
                                                     />
@@ -363,7 +365,7 @@ export default function BookingScreen() {
                                                 </TouchableOpacity>
 
                                                 {/* Quantity Display */}
-                                                <Text className="text-base px-2">{quantity}</Text>
+                                                <Text className="text-center text-base px-2 w-10">{quantity}</Text>
 
                                                 {/* Increase Button */}
                                                 <TouchableOpacity
