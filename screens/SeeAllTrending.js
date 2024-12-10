@@ -42,7 +42,7 @@ export default function SeeAllTrending() {
                         return (
                             <TouchableWithoutFeedback
                                 key={index}
-                                onPress={() => navigation.push("Movie", item)}
+                                onPress={() => navigation.navigate("Movie", item)}
                             >
                                 <View className="space-y-1 mr-4 mb-6">
                                     <Image

@@ -11,6 +11,7 @@ import { HeartIcon } from "react-native-heroicons/solid";
 import { detailedMovieList } from "../api/getDetailsMovies";
 import { imgBaseUrl } from "../constants";
 import { useNavigation } from "@react-navigation/native";
+import { fetchGenreList } from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 
@@ -20,6 +21,20 @@ export default function FavoriteMovieList({ data }) {
   const [liked, setLiked] = useState(true);
 
   const ITEM_HEIGHT = height * 0.2;
+  const [genre, setGenre] = useState([]);
+
+  useEffect(() => {
+    const fetchGenreMovieList = async () => {
+      const response = await fetchGenreList();
+      setGenre(response.genres);
+    };
+    const fetchDetailsMovieList = async (id) => {
+      const detailsMovieData = await detailedMovieList(JSON.stringify(id));
+      setDetailsMovie(detailsMovieData);
+    };
+
+    fetchGenreMovieList();
+  }, []);
 
   return (
     <ScrollView
@@ -67,13 +82,28 @@ export default function FavoriteMovieList({ data }) {
             </View>
             <View className="flex-row justify-between items-center px-2 py-4">
               <View>
-                <Text className="font-semibold text-neutral-500">
+                {/* <Text className="font-semibold text-neutral-500">
                   Time: {item.runtime} mins
-                </Text>
-                <Text className="font-semibold text-neutral-500">Type:</Text>
-                {item.genre_ids.map((index) => (
-                  <Text key={index}>{index}</Text>
-                ))}
+                </Text> */}
+                <View style={{ flexDirection: "row" }}>
+                  <Text
+                    className="font-semibold text-neutral-500"
+                    style={{ marginRight: 8 }}
+                  >
+                    Type:
+                  </Text>
+                  {item.genre_ids.map((id) => {
+                    const genreName = genre.find((g) => g.id === id)?.name;
+                    return (
+                      <Text
+                        key={id}
+                        style={{ marginRight: 8, fontWeight: "bold" }}
+                      >
+                        {genreName}
+                      </Text>
+                    );
+                  })}
+                </View>
               </View>
               <TouchableOpacity
                 className="flex-row items-center"

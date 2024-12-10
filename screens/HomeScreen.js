@@ -20,6 +20,7 @@ import { trendingMovieList } from "../api/getTrendingMovies";
 import { playingMovieList } from "../api/getNowShowingMovies";
 import { upcomingMovieList } from "../api/getComingSoonMovies";
 import { AuthContext } from '../constants/AuthContext';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const ios = Platform.OS == "ios";
@@ -51,7 +52,7 @@ export default function HomeScreen() {
       const upcomingMovieListDataList = await upcomingMovieList();
       setUpcomingMovieData(upcomingMovieListDataList["results"]);
     };
-
+    
     fetchUpcomingMovieList();
     fetchTrendingMovieList();
     fetchPlayingMovieList();

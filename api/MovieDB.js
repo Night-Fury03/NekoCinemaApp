@@ -50,7 +50,7 @@ export const fetchCreditsMovieEndpoint = (movieID) => {
 export const fetchDetailsPeopleEndpoint = (personID) => {
   return apiCallGet(`${apiBaseUrl}/person/${personID}?api_key=${apiKey}`);
 };
-export const fetchSearchMovie = params => {
+export const fetchSearchMovie = (params) => {
   return apiCallGet(searchMovieEndpoint, params);
 };
 export const fetchMoviesCreditsEndpoint = (personID) => {
@@ -78,6 +78,10 @@ export const fetchFavoriteMoviesAccountEndpoint = (accountID, sessionID) => {
   );
 };
 
+export const fetchGenreList = () => {
+  return apiCallGet(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`);
+};
+
 //METHOD POST
 
 const apiCallPost = async (endpoint, data) => {
@@ -99,10 +103,18 @@ const apiCallPost = async (endpoint, data) => {
   }
 };
 
-export const postAddRemoveFavoriteMovies = (movieID, isAddFavorite, accountID, sessionID) => {
-  return apiCallPost(`${apiBaseUrl}/account/${accountID}/favorite?session_id=${sessionID}&api_key=${apiKey}`, {
-    media_type: "movie",
-    media_id: movieID,
-    favorite: isAddFavorite,
-  });
+export const postAddRemoveFavoriteMovies = (
+  movieID,
+  isAddFavorite,
+  accountID,
+  sessionID
+) => {
+  return apiCallPost(
+    `${apiBaseUrl}/account/${accountID}/favorite?session_id=${sessionID}&api_key=${apiKey}`,
+    {
+      media_type: "movie",
+      media_id: movieID,
+      favorite: isAddFavorite,
+    }
+  );
 };

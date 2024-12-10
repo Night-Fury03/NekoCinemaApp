@@ -70,7 +70,7 @@ export default function FavoriteScreen() {
   };
 
   return (
-    <View className="flex-1 bg-customLinearGradient1" >
+    <View className="flex-1 bg-customLinearGradient1">
       <View className="flex-1 mt-8">
         <View className="flex-row justify-between w-full px-4">
           <Text className="text-2xl text-neutral-300">My favorite</Text>
@@ -139,16 +139,18 @@ export default function FavoriteScreen() {
           </View>
         </View>
 
-        {
-          favoriteMoviesAccountList["results"] && favoriteMoviesAccountList["results"].length > 0 ? <FavoriteMovieList data={favoriteMoviesAccountList['results']} />
-            : favoriteMoviesAccountList["results"] ? (
-              <View className="flex-1 flex-row justify-center items-center bg-customLinearGradient1">
-                <Text className="text-neutral-500">
-                  No results for favorite movies
-                </Text>
-              </View>
-            ) : <Loading />
-        }
+        {favoriteMoviesAccountList["results"] &&
+        favoriteMoviesAccountList["results"].length > 0 ? (
+          <FavoriteMovieList data={favoriteMoviesAccountList["results"]} />
+        ) : favoriteMoviesAccountList["results"] ? (
+          <View className="flex-1 flex-row justify-center items-center bg-customLinearGradient1">
+            <Text className="text-neutral-500">
+              No results for favorite movies
+            </Text>
+          </View>
+        ) : (
+          <Loading />
+        )}
       </View>
     </View>
   );
