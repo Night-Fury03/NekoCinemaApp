@@ -40,32 +40,32 @@ const time = [
     {
         id: 1,
         dayID: 1,
-        time: '8:40'
+        time: '8:40 AM'
     },
     {
         id: 2,
         dayID: 1,
-        time: '9:00'
+        time: '9:00 AM'
     },
     {
         id: 3,
         dayID: 1,
-        time: '15:20'
+        time: '3:20 PM'
     },
     {
         id: 4,
         dayID: 1,
-        time: '17:15'
+        time: '5:15 PM'
     },
     {
         id: 5,
         dayID: 1,
-        time: '19:40'
+        time: '7:40 PM'
     },
     {
         id: 6,
         dayID: 1,
-        time: '20:55'
+        time: '8:55 PM'
     },
 ]
 

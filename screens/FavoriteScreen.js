@@ -57,12 +57,12 @@ export default function FavoriteScreen() {
     height: dropdownHeight.value,
   }));
 
-//   const filteredProducts = favoriteMoviesAccountList.results.filter(
-//     (favoriteMovie) =>
-//       filterType === "Tất cả"
-//         ? true
-//         : favoriteMovie.genre_ids.includes(parseInt(filterType))
-//   );
+  //   const filteredProducts = favoriteMoviesAccountList.results.filter(
+  //     (favoriteMovie) =>
+  //       filterType === "Tất cả"
+  //         ? true
+  //         : favoriteMovie.genre_ids.includes(parseInt(filterType))
+  //   );
 
   const handleTypeSelect = (type) => {
     setFilterType(type);
@@ -70,7 +70,6 @@ export default function FavoriteScreen() {
   };
 
   return (
-    favoriteMoviesAccountList["results"] && favoriteMoviesAccountList["results"].length > 0 ? (
     <View className="flex-1 bg-customLinearGradient1" >
       <View className="flex-1 mt-8">
         <View className="flex-row justify-between w-full px-4">
@@ -139,11 +138,18 @@ export default function FavoriteScreen() {
             </Animated.View>
           </View>
         </View>
-        <FavoriteMovieList data={favoriteMoviesAccountList['results']} />
+
+        {
+          favoriteMoviesAccountList["results"] && favoriteMoviesAccountList["results"].length > 0 ? <FavoriteMovieList data={favoriteMoviesAccountList['results']} />
+            : favoriteMoviesAccountList["results"] ? (
+              <View className="flex-1 flex-row justify-center items-center bg-customLinearGradient1">
+                <Text className="text-neutral-500">
+                  No results for favorite movies
+                </Text>
+              </View>
+            ) : <Loading />
+        }
       </View>
     </View>
-    ) : (
-      <Loading />
-    )
   );
 }

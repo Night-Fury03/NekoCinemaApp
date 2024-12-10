@@ -5,6 +5,8 @@ import TabNavigator from './TabNavigator';
 import PayScreen from '../screens/PayScreen';
 import CompleteSreen from '../screens/CompleteSreen';
 import MyTicketsScreen from '../screens/MyTicketsScreen';
+import DrawerNavigators from './DrawerNavigators';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +18,7 @@ export default function RootStack() {
             <Stack.Screen name="Pay" component={PayScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Complete" component={CompleteSreen} options={{ headerShown: false }} />
             <Stack.Screen name="MyTickets" component={MyTicketsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Drawer" component={DrawerNavigators} options={{ headerShown: false }} />
         </Stack.Navigator>
 
     );

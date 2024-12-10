@@ -9,6 +9,7 @@ export const account_id = "";
 const trendingMovieListEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const nowPlayingsMovieEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
 const upcomingMovieEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
+const searchMovieEndpoint = `${apiBaseUrl}/search/movie?api_key=${apiKey}`;
 
 const commentsMovieEndpoint = `${apiBaseUrl}/movie/${movie_id}/reviews?api_key=${apiKey}`; // Các đánh giá của bộ phim
 
@@ -48,6 +49,9 @@ export const fetchCreditsMovieEndpoint = (movieID) => {
 };
 export const fetchDetailsPeopleEndpoint = (personID) => {
   return apiCallGet(`${apiBaseUrl}/person/${personID}?api_key=${apiKey}`);
+};
+export const fetchSearchMovie = params => {
+  return apiCallGet(searchMovieEndpoint, params);
 };
 export const fetchMoviesCreditsEndpoint = (personID) => {
   return apiCallGet(

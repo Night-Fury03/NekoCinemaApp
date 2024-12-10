@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, Animated } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { time, day, chair, FoodDrink } from '../index'
 
+
 export default function BookingScreen() {
+    const { params } = useRoute();
+    const {
+        item,
+        detailsMovie,
+    } = params;
     const navigation = useNavigation();
-    const movieName = "Black Clover"
 
     const scrollViewRef = useRef(null);
     const ticketsRef = useRef(null);
@@ -47,15 +52,16 @@ export default function BookingScreen() {
     // Add or Edit selection
     const handleSave = () => {
         setFoodAndDrinks(tempSelection);
-        // Tính tổng giá của Food & Drinks
-        const foodTotal = tempSelection.reduce((sum, item) => sum + item.cost * item.quantity, 0);
-
-        // Cộng thêm giá ghế đã chọn
-        const chairTotal = selectedChairs.length * 2; // 2$ mỗi ghế
-
-        setTotalPrice(foodTotal + chairTotal);
-        setModalVisible(false); // Close modal
+        setModalVisible(false);
     };
+
+    useEffect(() => {
+        const chairTotal = selectedChairs.length * 2; // Giá mỗi ghế
+        const foodTotal = foodAndDrinks.reduce((sum, item) => sum + item.cost * item.quantity, 0);
+
+        setTotalPrice(chairTotal + foodTotal);
+    }, [selectedChairs, foodAndDrinks]);
+
 
 
     const findMaxCountChairInRow = (item) => {
@@ -142,7 +148,11 @@ export default function BookingScreen() {
                 </TouchableOpacity>
             </View>
             <View className="w-full my-8 items-center justify-center">
-                <Text className="text-white text-3xl">{movieName}</Text>
+                <Text className="text-white text-3xl">
+                    {detailsMovie.original_title.length > 14
+                        ? detailsMovie.original_title.slice(0, 14) + "..."
+                        : detailsMovie.original_title}
+                </Text>
             </View>
 
             {isAboveChairs && isSelectionComplete && (
@@ -187,12 +197,12 @@ export default function BookingScreen() {
                         showsHorizontalScrollIndicator={false}
                     >
                         {day.map((item, index) => {
-                            const isSelected = selectedDay === item.id;
+                            const isSelected = selectedDay.id === item.id;
                             return (
                                 <TouchableOpacity
                                     key={index}
                                     className={`w-16 mr-4 px-3 rounded-2xl justify-center items-center ${isSelected ? 'bg-customYellow' : 'bg-white'}`}
-                                    onPress={() => setSelectedDay(item.id)}
+                                    onPress={() => setSelectedDay(item)}
                                 >
 
                                     <Text>{item.thu}</Text>
@@ -210,12 +220,12 @@ export default function BookingScreen() {
                 {/* chọn giờ chiếu tương ứng với ngày */}
                 <View className="w-full flex-row flex-wrap mt-8 px-4 justify-center items-center">
                     {time.map((item, index) => {
-                        const isSelected = selectedTime === index;
+                        const isSelected = selectedTime === item.time;
                         return (
                             <TouchableOpacity
                                 key={index}
                                 className={`w-20 mr-4 mb-4 p-3 rounded-lg justify-center items-center ${isSelected ? 'bg-customYellow' : 'border border-neutral-400'}`}
-                                onPress={() => setSelectedTime(index)}
+                                onPress={() => setSelectedTime(item.time)}
                             >
                                 <Text className={`${isSelected ? '' : 'text-white'}`}>{item.time}</Text>
                             </TouchableOpacity>
@@ -236,7 +246,6 @@ export default function BookingScreen() {
                 </View>
 
                 {/* lựa chọn ghế */}
-
                 <View className="w-full mt-4 flex-row">
                     <View className="w-1/12 justify-between">
                         {
@@ -457,7 +466,15 @@ export default function BookingScreen() {
 
                         <TouchableOpacity
                             className="w-full rounded-lg py-3 items-center bg-customPink"
-                            onPress={() => navigation.navigate('Pay')}
+                            onPress={() => navigation.navigate('Pay', {
+                                movie: item,
+                                detailsMovie: detailsMovie,
+                                selectedDay,
+                                selectedTime,
+                                selectedChairs,
+                                foodAndDrinks,
+                                totalPrice
+                            })}
                         >
                             <Text className="text-white">Pay</Text>
                         </TouchableOpacity>

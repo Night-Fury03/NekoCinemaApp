@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Ticket from '../components/ticket';
 
 
 export default function MyTicketsScreen() {
+    const { params } = useRoute();
+    const {
+        movie,
+        detailsMovie,
+        selectedDay,
+        selectedTime,
+        selectedChairs,
+        foodAndDrinks,
+        totalPrice
+    } = params;
     const navigation = useNavigation();
     return (
         <View className="flex-1 bg-customLinearGradient1">
@@ -32,7 +42,7 @@ export default function MyTicketsScreen() {
                 className='flex-1'
             >
                 {/* tickets */}
-                <Ticket />
+                <Ticket movie={movie} detailsMovie={detailsMovie} day={selectedDay} time={selectedTime} chairs={selectedChairs} />
             </ScrollView>
         </View >
     )

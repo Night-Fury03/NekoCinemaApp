@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image, Modal, ScrollView } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Ticket from '../components/ticket';
 
 
 export default function PayScreen() {
+    const { params } = useRoute();
+    const {
+        movie,
+        detailsMovie,
+        selectedDay,
+        selectedTime,
+        selectedChairs,
+        foodAndDrinks,
+        totalPrice
+    } = params;
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Credit Card');
@@ -41,7 +51,7 @@ export default function PayScreen() {
                 className='flex-1'
             >
                 {/* tickets */}
-                <Ticket />
+                <Ticket movie={movie} detailsMovie={detailsMovie} day={selectedDay} time={selectedTime} chairs={selectedChairs} />
 
                 {/* apply vouchers */}
                 <View className="mt-6 w-full items-center">
@@ -51,7 +61,7 @@ export default function PayScreen() {
                             className="p-3 items-center"
                             onPress={toggleModal}
                         >
-                            <Text className="text-white">{`see all >>`}</Text>
+                            <Text className="text-customOrange">{`see all >>`}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -69,21 +79,28 @@ export default function PayScreen() {
                         <Text className="text-white text-lg font-bold mb-1">Selected Seats</Text>
                         <View className="w-full flex-row justify-between">
                             <View className="w-8/12 ml-2 flex-row flex-wrap">
-
-                                <Text className="text-white mr-2">A2 A3</Text>
-
+                                {selectedChairs.map((chair, index) => (
+                                    <Text key={index} className="text-white mr-2">{chair}</Text>
+                                ))}
                             </View>
-                            <Text className="text-white text-right flex-1">$2.5</Text>
+                            <Text className="text-white text-right flex-1">${(selectedChairs.length * 2).toFixed(2)}</Text>
                         </View>
                     </View>
 
-                    <View className="w-10/12 mt-4">
-                        <Text className="text-white text-lg font-bold mb-1">Foods & Drinks</Text>
-                        <View className="ml-2 mb-2 flex-row justify-between items-center">
-                            <Text className="text-white">Popcorn x2</Text>
-                            <Text className="text-white">$2.5</Text>
-                        </View>
-                    </View>
+                    {
+                        foodAndDrinks.length > 0 ? (
+                            <View className="w-10/12 mt-4">
+                                <Text className="text-white text-lg font-bold mb-1">Foods & Drinks</Text>
+                                {foodAndDrinks.map((item, index) => (
+                                    <View key={index} className="ml-2 mb-2 flex-row justify-between items-center">
+                                        <Text className="text-white">{item.name} x{item.quantity}</Text>
+                                        <Text className="text-white">${(item.cost * item.quantity).toFixed(2)}</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        ) : null
+                    }
+
                 </View>
 
                 {/* type payment */}
@@ -113,12 +130,22 @@ export default function PayScreen() {
             <View className="w-full py-2 items-center border-t border-neutral-400">
                 <View className="w-10/12 mb-4 flex-row justify-between items-center text-white text-xl font-bold">
                     <Text className="text-white text-xl font-bold">Total :</Text>
-                    <Text className="text-white text-xl font-bold">$10</Text>
+                    <Text className="text-white text-lg font-bold">${totalPrice.toFixed(2)}</Text>
                 </View>
 
                 <TouchableOpacity
                     className="w-10/12 rounded-lg mx-4 p-3 items-center bg-customPink"
-                    onPress={() => navigation.navigate("Complete")}
+                    onPress={() => navigation.navigate("Complete",
+                        {
+                            movie: movie,
+                            detailsMovie: detailsMovie,
+                            selectedDay,
+                            selectedTime,
+                            selectedChairs,
+                            foodAndDrinks,
+                            totalPrice
+                        }
+                    )}
                 >
                     <Text className="text-white font-bold">Pay</Text>
                 </TouchableOpacity>

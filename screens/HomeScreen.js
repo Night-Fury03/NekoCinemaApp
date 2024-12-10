@@ -14,7 +14,6 @@ import { styled } from "nativewind";
 import { useState } from "react";
 import TrendingMovies from "../components/trendingMovies";
 import MovieList from "../components/movieList";
-import Loading from "../components/loading";
 import { useNavigation } from "@react-navigation/native";
 import { getAccountID } from "../api/getAccountID";
 import { trendingMovieList } from "../api/getTrendingMovies";
@@ -30,7 +29,6 @@ export default function HomeScreen() {
   const [trendingMovie, setTrendingMovie] = useState([]);
   const [nowShowingMovieData, setNowShowingMovieData] = useState([]);
   const [upcomingMovieData, setUpcomingMovieData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const { isLoggedIn } = useContext(AuthContext); // Lấy trạng thái đăng nhập

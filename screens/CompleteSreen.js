@@ -1,9 +1,19 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 export default function CompleteScreen() {
+    const { params } = useRoute();
+    const {
+        movie,
+        detailsMovie,
+        selectedDay,
+        selectedTime,
+        selectedChairs,
+        foodAndDrinks,
+        totalPrice
+    } = params;
     const navigation = useNavigation();
 
     return (
@@ -17,7 +27,17 @@ export default function CompleteScreen() {
 
             <View className="absolute w-10/12 bottom-10 flex flex-col gap-y-8">
                 <TouchableOpacity className="items-center bg-customGray w-full p-3 rounded-lg"
-                    onPress={() => navigation.navigate("MyTickets")}>
+                    onPress={() => navigation.navigate("MyTickets", 
+                        {
+                            movie: movie,
+                            detailsMovie: detailsMovie,
+                            selectedDay,
+                            selectedTime,
+                            selectedChairs,
+                            foodAndDrinks,
+                            totalPrice
+                        }
+                    )}>
                     <Text className="text-lg">My tickets</Text>
                 </TouchableOpacity>
 
