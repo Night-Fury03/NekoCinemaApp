@@ -80,26 +80,19 @@ export default function FavoriteMovieList({ data }) {
                 </Text>
               </View>
             </View>
-            <View className="flex-row justify-between items-center px-2 py-4">
-              <View>
-                {/* <Text className="font-semibold text-neutral-500">
-                  Time: {item.runtime} mins
-                </Text> */}
-                <View style={{ flexDirection: "row" }}>
-                  <Text
-                    className="font-semibold text-neutral-500"
-                    style={{ marginRight: 8 }}
-                  >
-                    Type:
-                  </Text>
-                  {item.genre_ids.map((id) => {
+            <View className="flex-row justify-between items-center px-2 py-4 gap-x-4">
+              <View className="flex-1 flex flex-row gap-x-2">
+                <Text className="font-semibold text-neutral-500">Type: </Text>
+                <View className='flex flex-row flex-wrap'>
+                  {item.genre_ids.map((id, index) => {
                     const genreName = genre.find((g) => g.id === id)?.name;
+                    let showDot = index + 1 != item.genre_ids.length
                     return (
                       <Text
                         key={id}
                         style={{ marginRight: 8, fontWeight: "bold" }}
                       >
-                        {genreName}
+                        {genreName} {showDot ? " •" : null}
                       </Text>
                     );
                   })}

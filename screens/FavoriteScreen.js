@@ -72,19 +72,17 @@ export default function FavoriteScreen() {
   return (
     <View className="flex-1 bg-customLinearGradient1">
       <View className="flex-1 mt-8">
-        <View className="flex-row justify-between w-full px-4">
+        <View className="flex-row justify-between w-full px-4 mb-4">
           <Text className="text-2xl text-neutral-300">My favorite</Text>
           <Text className="text-base text-neutral-300">
             Count: {favoriteMoviesAccountList.total_results}
           </Text>
         </View>
 
-        <View className="flex-row w-full px-4 items-center py-4">
+        {/* <View className="flex-row w-full px-4 items-center py-4">
           <Text className="text-xl text-neutral-500">Filter by: </Text>
 
-          {/* Filter */}
           <View className=" ml-2">
-            {/* Dropdown */}
             <TouchableOpacity
               className="flex-row items-center"
               onPress={() => setDropdownOpen(!isDropdownOpen)}
@@ -99,7 +97,6 @@ export default function FavoriteScreen() {
               )}
             </TouchableOpacity>
 
-            {/* Danh sách các tùy chọn trong dropdown */}
 
             <Animated.View
               style={[
@@ -137,7 +134,7 @@ export default function FavoriteScreen() {
               </ScrollView>
             </Animated.View>
           </View>
-        </View>
+        </View> */}
 
         {favoriteMoviesAccountList["results"] &&
         favoriteMoviesAccountList["results"].length > 0 ? (
